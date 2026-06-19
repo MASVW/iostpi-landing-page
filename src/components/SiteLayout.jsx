@@ -10,11 +10,17 @@ import {
   X,
   Youtube,
 } from 'lucide-react'
-import { ASSET_ROOT, studentRelated, teacherRelated } from '../data/siteData'
+import { ASSET_ROOT, studentRelated, sambutanRelated, teacherRelated } from '../data/siteData'
 
 const navigation = [
   { label: 'Beranda', path: '/' },
-  { label: 'Sambutan', path: '/page/sambutan' },
+  {
+    label: 'Sambutan', path: '/page/sambutan',
+    children: [
+      { label: 'Sambutan', path: '/page/sambutan' },
+      ...sambutanRelated,
+    ],
+  },
   {
     label: 'Kompetisi Guru',
     path: '/page/kompetisi-guru',
@@ -133,39 +139,51 @@ function Footer() {
   return (
     <footer className="site-footer">
       <div className="container footer-grid">
-        <div className="footer-contact">
-          <div className="footer-title">
-            <img src={`${ASSET_ROOT}/uhn.png`} alt="Logo UHN" />
-            <strong>PIOS</strong>
+        <div className="left-footer">
+          <div className='left-logo'>
+            <img src={`${ASSET_ROOT}/ika-fmipa.png`} alt="Universitas Sumatera Utara" />
+            <img src={`${ASSET_ROOT}/iostpi.jpg`} alt="Universitas Sumatera Utara" />
           </div>
-          <dl>
-            <div><dt>CP Panitia</dt><dd>+62 813-9736-0600</dd></div>
-            <div><dt>Email</dt><dd>pios@uhn.ac.id</dd></div>
-            <div><dt>Sekretariat</dt><dd>FKIP UHN MEDAN, Gedung L Lt. 2, Jln. Sutomo No.4A Medan - Sumatera Utara</dd></div>
-          </dl>
+          <div className="footer-contact">
+            <div className="footer-title">
+              <strong>Science Competition Expo</strong>
+            </div>
+            <dl>
+              <div>
+                <dt>CP Panitia</dt>
+                <dd>0813 6021 1850 (Tingkat SMA)</dd>
+                <dt></dt>
+                <dd>0813 6021 1845 (Tingkat SMP)</dd>
+                <dt></dt>
+                <dd>0853 8124 7216 (Tingkat SD)</dd>
+              </div>
+
+
+              <div>
+                <dt>Sekretariat Pendaftaran:</dt>
+                <dd>The Prime Residence Blok A No. 22-23 Jln. Setia Budi Ujung Simpang Selayang, Medan.
+                  (Dekat SPBU & Pos Polisi Simpang Selayang)
+                </dd>
+              </div>
+            </dl>
+          </div>
+
         </div>
         <div className="footer-partners">
           <div>
-            <h3>Bekerjasama Dengan</h3>
+            <h3>Bekerjasama Dengan, dan didukung oleh:</h3>
             <div className="partner-logos">
               <img src={`${ASSET_ROOT}/usu.png`} alt="Universitas Sumatera Utara" />
               <img src={`${ASSET_ROOT}/unimed.png`} alt="Universitas Negeri Medan" />
-            </div>
-          </div>
-          <div>
-            <h3>Didukung dan Direkomendasikan Oleh</h3>
-            <p>Dinas Pendidikan Provinsi Sumatera Utara dan BBGTK Sumatera Utara</p>
-            <div className="support-logos">
-              <img src={`${ASSET_ROOT}/sumut.png`} alt="Dinas Pendidikan Provinsi Sumatera Utara" />
-              <img src={`${ASSET_ROOT}/bbgtk.jpg`} alt="BBGTK Sumatera Utara" />
+              <img src={`${ASSET_ROOT}/pemprovsu-logo.png`} alt="Pemerintah Provinsi Sumatera Utara" />
+              <img src={`${ASSET_ROOT}/pemko-medan-logo.png`} alt="Pemko Medan" />
             </div>
           </div>
         </div>
       </div>
       <div className="footer-bottom">
         <div className="container">
-          <span>© PIOS. Semua hak cipta dilindungi.</span>
-          <a href="mailto:pios@uhn.ac.id">pios@uhn.ac.id</a>
+          <span>© SCE. Semua hak cipta dilindungi.</span>
         </div>
       </div>
     </footer>

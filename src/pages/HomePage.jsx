@@ -41,23 +41,15 @@ function Hero() {
   }
 
   return (
-    <section className="hero" style={{ '--hero-image': `url(${slides[active]})` }}>
+    <section className="hero" style={{ '--hero-image': `url(${slides[active]['filename']})` }}>
       <button className="hero-arrow hero-arrow-left" aria-label="Sebelumnya" onClick={() => changeSlide(-1)}><ChevronLeft /></button>
-      <div className="hero-content container">
-        <span>PIOS Se-Sumbagut</span>
-        <h2>Pekan Ilmiah dan Olimpiade Sains</h2>
-        <p>Se-Sumatera Bagian Utara - Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat</p>
-        <div className="hero-actions">
-          <Link className="button button-primary" to="/pengumuman">Lihat Informasi</Link>
-          <Link className="button button-outline" to="/page/prosedur-pendaftaran">Prosedur Pendaftaran</Link>
-        </div>
-      </div>
       <button className="hero-arrow hero-arrow-right" aria-label="Berikutnya" onClick={() => changeSlide(1)}><ChevronRight /></button>
       <div className="hero-dots">
         {slides.map((_, index) => (
           <button key={index} className={active === index ? 'active' : ''} onClick={() => setActive(index)} aria-label={`Slide ${index + 1}`} />
         ))}
       </div>
+      <p className='hero-placeholder'>{slides[active]['judul']}</p>
     </section>
   )
 }
@@ -88,8 +80,8 @@ function PartnerNotes() {
           <a href="https://pelatihan-osn.com/" target="_blank" rel="noreferrer">View More</a>
         </article>
         <article>
-          <h3>British Council Indonesia Foundation</h3>
-          <p>Seluruh Soal Olimpiade Bahasa Inggris Dibuat dan Ditanggungjawabi Oleh: British Council Indonesia Foundation - Jakarta</p>
+          <h3>English 1 Jakarta</h3>
+          <p>Seluruh Soal Olimpiade Bahasa Inggris Dibuat dan Ditanggungjawabi Oleh: English 1 Jakarta</p>
           <a href="https://www.britishcouncilfoundation.id/" target="_blank" rel="noreferrer">View More</a>
         </article>
       </div>
@@ -139,12 +131,11 @@ function AnnouncementSection() {
 }
 
 export default function HomePage() {
-  useEffect(() => { document.title = 'PIOS - Beranda' }, [])
+  useEffect(() => { document.title = 'Olimpiade SCE di USU Medan' }, [])
 
   return (
     <>
       <Hero />
-      <TeacherCards />
       <PartnerNotes />
       <ActivitySection />
       <AnnouncementSection />
