@@ -2,35 +2,35 @@ export const ASSET_ROOT = "/assets";
 
 export const slides = [
   {
-    filename: `${ASSET_ROOT}/flyer-1.jpg`,
+    filename: `${ASSET_ROOT}/flyer-1.avif`,
     judul:
       "Panitia SCE 2009 Beraudiensi dengan Dinas Pendidikan Sumatera Utara",
   },
   {
-    filename: `${ASSET_ROOT}/flyer-2.jpg`,
+    filename: `${ASSET_ROOT}/flyer-2.avif`,
     judul: "Kepala Dinas Pendidikan Sumatera Utara Membuka Resmi SCE 2011",
   },
   {
-    filename: `${ASSET_ROOT}/flyer-3.jpg`,
+    filename: `${ASSET_ROOT}/flyer-3.avif`,
     judul:
       "dr. Sofyan Tan, Komisi X DPR RI yang  membidangi Pendidikan resmi membuka dan mendukung SCE 2015",
   },
   {
-    filename: `${ASSET_ROOT}/flyer-4.jpg`,
+    filename: `${ASSET_ROOT}/flyer-4.avif`,
     judul:
       "Prof. Dr. Ir. Hj. Darmayanti Lubis Wakil Ketua DPD RI resmi membuka dan mendukung SCE 2016",
   },
   {
-    filename: `${ASSET_ROOT}/flyer-5.jpg`,
+    filename: `${ASSET_ROOT}/flyer-5.avif`,
     judul:
       "Panglima Komando Cadangan Strategis Angkatan Darat (Pangkostrad) Letnan Jenderal Edy Rahmayadi membuka dan mendukung SCE 2016",
   },
   {
-    filename: `${ASSET_ROOT}/flyer-5b.jpg`,
+    filename: `${ASSET_ROOT}/flyer-2.avif`,
     judul: "Kecerian Para Siswa di SCE 2017",
   },
   {
-    filename: `${ASSET_ROOT}/flyer-6.jpg`,
+    filename: `${ASSET_ROOT}/flyer-6.avif`,
     judul:
       "Dekan FMIPA USU & Perwakilan Dinas Pendidikan Sumatera Utara Resmi Membuka SCE 2019",
   },
