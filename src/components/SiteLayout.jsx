@@ -14,26 +14,17 @@ const navigation = [
   { label: 'Beranda', path: '/' },
   {
     label: 'Sambutan', path: '/page/sambutan',
-    children: [
-      { label: 'Sambutan', path: '/page/sambutan' },
-      ...sambutanRelated,
-    ],
+    children: sambutanRelated,
   },
   {
     label: 'Kompetisi Guru',
     path: '/page/kompetisi-guru',
-    children: [
-      { label: 'Kompetisi Guru', path: '/page/kompetisi-guru' },
-      ...teacherRelated,
-    ],
+    children: teacherRelated,
   },
   {
     label: 'Olimpiade Siswa',
     path: '/page/olimpiade-siswa',
-    children: [
-      { label: 'Olimpiade Siswa', path: '/page/olimpiade-siswa' },
-      ...studentRelated,
-    ],
+    children: studentRelated,
   },
   { label: 'Prosedur Pendaftaran', path: '/page/prosedur-pendaftaran' },
   { label: 'Kumpulan Soal SCE', path: '/page/kumpulan-soal' },
@@ -43,7 +34,7 @@ const navigation = [
 function SocialLinks() {
   return (
     <div className="social-links" aria-label="Media sosial">
-      <a href="#facebook" aria-label="Facebook"><Facebook size={15} /></a>
+      <a href="https://www.facebook.com/Olhttps://www.facebook.com/OlimpiadeUSUU" aria-label="Facebook"><Facebook size={15} /></a>
       <a href="#instagram" aria-label="Instagram"><Instagram size={15} /></a>
       <a href="#youtube" aria-label="YouTube"><Youtube size={15} /></a>
     </div>
@@ -79,7 +70,7 @@ function Navigation() {
   return (
     <nav className="main-nav" aria-label="Navigasi utama">
       <div className="container nav-inner">
-        <NavLink className="mobile-brand" to="/">PIOS</NavLink>
+        <NavLink className="mobile-brand" to="/">SCE</NavLink>
         <button className="menu-toggle" onClick={() => setOpen(!open)} aria-label="Buka menu" aria-expanded={open}>
           {open ? <X /> : <Menu />}
         </button>
@@ -118,11 +109,16 @@ function Header() {
       <TopBar />
       <div className="brand-header container">
         <NavLink to="/" aria-label="Kembali ke beranda">
-          <img className="uhn-logo" src={`${ASSET_ROOT}/iostpi-logo.png`} alt="Logo PIOS" />
+          <div className='brand-header-left-group'>
+            <img className="uhn-logo" src={`${ASSET_ROOT}/iostpi-logo.png`} alt="Logo PIOS" />
+            <img className="fokal-usu" src={`${ASSET_ROOT}/logo-fokal-usu.avif`} alt="Vokal Usu" />
+          </div>
         </NavLink>
         <div className="brand-copy">
           <h1>SCIENCE COMPETITION EXPO</h1>
           <p className="tagline">SCE - 2026</p>
+          <p className="region-title">SE SUMATERA BAGIAN UTARA</p>
+          <p className="region-subtitle">(Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat)</p>
         </div>
         <NavLink to="/" aria-label="Kembali ke beranda">
           <img className="dikti-logo" src={`${ASSET_ROOT}/sumut-logo.png`} alt="Logo Dikti Saintek" />
@@ -169,11 +165,11 @@ function Footer() {
         </div>
         <div className="footer-partners">
           <div>
-            <h3>Bekerjasama Dengan, dan didukung oleh:</h3>
+            <h3>Dewan Juri LKTI & Seminar Guru Bekerjasama Dengan:</h3>
             <div className="partner-logos">
               <img src={`${ASSET_ROOT}/usu.png`} alt="Universitas Sumatera Utara" />
               <img src={`${ASSET_ROOT}/unimed.png`} alt="Universitas Negeri Medan" />
-              <img src={`${ASSET_ROOT}/pemprovsu-logo.png`} alt="Pemerintah Provinsi Sumatera Utara" />
+              <img src={`${ASSET_ROOT}/itb-logo.png`} alt="Institut_Teknologi_Bandung" />
               <img src={`${ASSET_ROOT}/pemko-medan-logo.png`} alt="Pemko Medan" />
             </div>
           </div>

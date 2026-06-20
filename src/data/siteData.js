@@ -46,12 +46,11 @@ export const mainRelated = [
 
 export const sambutanRelated = [
   { label: "Sambutan Direktur IOSTPI", path: "/page/sambutan-direktur-iostpi" },
-  { label: "Sambutan Dekan FMIPA USU", path: "/page/sambutan-dekan-fmipa-usu" },
   {
-    label: "Sambutan Ketua IKA FMIPA USU Deli Serdang",
-    path: "/page/sambutan-ketua-ika-fmipa-usu-deli-serdang",
+    label: "Sambutan Ketua Forum Komunikasi Antar Alumni (FOKAL) USU",
+    path: "/page/sambutan-ketua-fokal-usu",
   },
-  { label: "Sambutan Panitia", path: "/page/sambutan-panitia" },
+  { label: "Sambutan Ketua Panitia", path: "/page/sambutan-ketua-panitia" },
 ];
 
 export const teacherRelated = [
@@ -79,6 +78,21 @@ export const contentPages = {
       "PIOS tidak hanya menjadi ajang perlombaan, tetapi juga wadah untuk memperluas wawasan, membangun kepercayaan diri, serta menumbuhkan budaya ilmiah di kalangan pelajar dan pendidik. Setiap peserta diharapkan dapat menjadikan kegiatan ini sebagai pengalaman berharga untuk mengasah kemampuan, memperkuat karakter, dan meningkatkan daya saing di era perkembangan ilmu pengetahuan dan teknologi.",
       "Kami mengucapkan terima kasih kepada seluruh pihak yang telah memberikan dukungan dalam penyelenggaraan kegiatan ini. Semoga PIOS dapat berjalan dengan baik, memberi manfaat yang luas, dan menjadi bagian dari upaya bersama dalam mendorong lahirnya generasi yang unggul, berprestasi, dan berintegritas.",
     ],
+  },
+  "sambutan-direktur-iostpi": {
+    title: "Sambutan Direktur IOSTPI",
+    related: sambutanRelated,
+    paragraphs: ["Sambutan Direktur IOSTPI"],
+  },
+  "sambutan-ketua-fokal-usu": {
+    title: "Sambutan Ketua Forum Komunikasi Antar Alumni (FOKAL) USU",
+    related: sambutanRelated,
+    paragraphs: ["Sambutan Ketua Forum Komunikasi Antar Alumni (FOKAL) USU"],
+  },
+  "sambutan-ketua-panitia": {
+    title: "Sambutan Ketua Panitia",
+    related: sambutanRelated,
+    paragraphs: ["Sambutan Ketua Panitia"],
   },
   "kompetisi-guru": {
     title: "Kompetisi Guru",

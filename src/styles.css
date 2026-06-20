@@ -94,13 +94,25 @@ img {
 }
 
 .brand-header {
-  min-height: 130px;
+  min-height: 190px;
   display: grid;
-  grid-template-columns: 105px 1fr 125px;
+  grid-template-columns: 120px 1fr 125px;
   align-items: center;
   gap: 24px;
 }
+.brand-header-left-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
 .uhn-logo {
+  width: 82px;
+  height: 82px;
+  object-fit: contain;
+}
+.fokal-usu {
   width: 88px;
   height: 88px;
   object-fit: contain;
@@ -122,20 +134,39 @@ img {
   text-transform: uppercase;
 }
 .tagline {
-  letter-spacing: 5px;
+  letter-spacing: 0.16em;
 }
-.brand-copy h1 {
-  margin: 8px 0 2px;
+.brand-copy h1,
+.brand-copy .tagline {
+  margin: 0;
   color: #2b638f;
   font-size: clamp(25px, 3vw, 37px);
   line-height: 1.12;
   font-weight: 900;
   text-transform: uppercase;
 }
+.brand-copy h1 {
+  margin-bottom: 4px;
+}
 .brand-copy p {
   margin: 6px 0 0;
   color: #31536b;
   font-size: 15px;
+}
+.brand-copy .region-title {
+  margin-top: 13px;
+  color: #2b638f;
+  font-size: clamp(15px, 1.7vw, 21px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.brand-copy .region-subtitle {
+  margin-top: 4px;
+  color: #31536b;
+  font-size: clamp(12px, 1.25vw, 15px);
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .main-nav {
@@ -152,17 +183,21 @@ img {
   justify-content: center;
 }
 .nav-links {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 7px;
 }
 .nav-item {
   position: relative;
+  flex: 1 1 0;
+  min-width: 0;
 }
 .nav-item > a,
 .nav-item > button {
+  width: 100%;
   min-height: 45px;
-  padding: 0 15px;
+  padding: 0 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,7 +208,10 @@ img {
   background: rgba(255, 255, 255, 0.07);
   font-size: 15px;
   font-weight: 800;
+  line-height: 1.08;
+  text-align: center;
   text-shadow: 0 1px rgba(0, 0, 0, 0.25);
+  white-space: normal;
   cursor: pointer;
 }
 .nav-item > a:hover,
@@ -186,7 +224,7 @@ img {
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
-  width: 215px;
+  width: min(90vw, max(100%, 320px));
   padding: 7px;
   display: none;
   border-radius: 9px;
@@ -901,18 +939,27 @@ img {
 
 @media (max-width: 900px) {
   .brand-header {
-    grid-template-columns: 82px 1fr 92px;
+    min-height: 175px;
+    grid-template-columns: 86px 1fr 92px;
     gap: 14px;
   }
   .uhn-logo {
-    width: 74px;
-    height: 74px;
+    width: 68px;
+    height: 68px;
+  }
+  .fokal-usu {
+    width: 72px;
+    height: 72px;
   }
   .dikti-logo {
     width: 90px;
   }
-  .brand-copy h1 {
+  .brand-copy h1,
+  .brand-copy .tagline {
     font-size: 27px;
+  }
+  .brand-copy .region-title {
+    font-size: 17px;
   }
   .nav-item > a,
   .nav-item > button {
@@ -954,28 +1001,53 @@ img {
     gap: 12px;
   }
   .brand-header {
-    min-height: 216px;
-    grid-template-columns: 65px 1fr 65px;
+    min-height: 185px;
+    grid-template-columns: 58px 1fr 58px;
     gap: 8px;
   }
+
+  .brand-header-left-group {
+    gap: 5px;
+  }
+
   .uhn-logo {
-    width: 62px;
-    height: 74px;
+    width: 52px;
+    height: 52px;
+  }
+  .fokal-usu {
+    width: 56px;
+    height: 56px;
   }
   .dikti-logo {
-    width: 65px;
+    width: 58px;
   }
   .brand-copy span {
     font-size: 11px;
   }
-  .brand-copy h1 {
-    margin-top: 7px;
+  .brand-copy h1,
+  .brand-copy .tagline {
     font-size: 22px;
     line-height: 1.15;
+  }
+  .brand-copy h1 {
+    margin-top: 7px;
+    margin-bottom: 3px;
+  }
+  .brand-copy .tagline {
+    margin-top: 0;
   }
   .brand-copy p {
     font-size: 13px;
     line-height: 1.48;
+  }
+  .brand-copy .region-title {
+    margin-top: 9px;
+    font-size: 13px;
+    line-height: 1.25;
+  }
+  .brand-copy .region-subtitle {
+    font-size: 11px;
+    line-height: 1.35;
   }
   .nav-inner {
     min-height: 57px;
@@ -1010,6 +1082,9 @@ img {
   }
   .nav-links.is-open {
     display: flex;
+  }
+  .nav-item {
+    flex: none;
   }
   .nav-item > a,
   .nav-item > button {
@@ -1140,10 +1215,18 @@ img {
     gap: 5px;
   }
   .brand-header {
-    grid-template-columns: 60px 1fr 60px;
+    min-height: 170px;
+    grid-template-columns: 50px 1fr 50px;
   }
-  .brand-copy h1 {
-    font-size: 20px;
+  .brand-copy h1,
+  .brand-copy .tagline {
+    font-size: 18px;
+  }
+  .brand-copy .region-title {
+    font-size: 11px;
+  }
+  .brand-copy .region-subtitle {
+    font-size: 10px;
   }
   .hero h2 {
     font-size: 29px;
