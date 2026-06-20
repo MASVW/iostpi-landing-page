@@ -4,9 +4,7 @@ import {
   ChevronDown,
   Facebook,
   Instagram,
-  Mail,
   Menu,
-  Phone,
   X,
   Youtube,
 } from 'lucide-react'

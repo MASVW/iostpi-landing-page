@@ -13,12 +13,6 @@ import {
 import AnnouncementCard from '../components/AnnouncementCard'
 import { announcements, slides } from '../data/siteData'
 
-const teacherActivities = [
-  { title: 'LKTI Guru', description: 'Informasi lomba karya tulis ilmiah guru.', icon: NotebookTabs, path: '/page/lkti-guru' },
-  { title: 'Seminar Guru', description: 'Informasi seminar guru PIOS.', icon: MicVocal, path: '/page/seminar-guru' },
-  { title: 'Olimpiade Guru', description: 'Informasi olimpiade guru.', icon: Trophy, path: '/page/olimpiade-guru' },
-]
-
 const activities = [
   { title: 'Seminar Guru', description: 'Informasi seminar guru PIOS.', icon: MicVocal, path: '/page/seminar-guru' },
   { title: 'Olimpiade Guru', description: 'Informasi olimpiade guru.', icon: Trophy, path: '/page/olimpiade-guru' },
@@ -32,6 +26,14 @@ function Hero() {
   const [active, setActive] = useState(0)
 
   useEffect(() => {
+    slides.forEach((slide) => {
+      const image = new Image()
+      image.src = slide.filename
+      image.decode?.().catch(() => {})
+    })
+  }, [])
+
+  useEffect(() => {
     const timer = window.setInterval(() => setActive((current) => (current + 1) % slides.length), 5500)
     return () => window.clearInterval(timer)
   }, [])
@@ -41,7 +43,18 @@ function Hero() {
   }
 
   return (
-    <section className="hero" style={{ '--hero-image': `url(${slides[active]['filename']})` }}>
+    <section className="hero">
+      <div className="hero-slides" aria-hidden="true">
+        {slides.map((slide, index) => (
+          <img
+            className={`hero-slide ${active === index ? 'is-active' : ''}`}
+            src={slide.filename}
+            alt=""
+            decoding="async"
+            key={slide.filename}
+          />
+        ))}
+      </div>
       <button className="hero-arrow hero-arrow-left" aria-label="Sebelumnya" onClick={() => changeSlide(-1)}><ChevronLeft /></button>
       <button className="hero-arrow hero-arrow-right" aria-label="Berikutnya" onClick={() => changeSlide(1)}><ChevronRight /></button>
       <div className="hero-dots">
@@ -49,23 +62,7 @@ function Hero() {
           <button key={index} className={active === index ? 'active' : ''} onClick={() => setActive(index)} aria-label={`Slide ${index + 1}`} />
         ))}
       </div>
-      <p className='hero-placeholder'>{slides[active]['judul']}</p>
-    </section>
-  )
-}
-
-function TeacherCards() {
-  return (
-    <section className="teacher-section">
-      <div className="container teacher-grid">
-        {teacherActivities.map(({ title, description, icon: Icon, path }) => (
-          <Link to={path} className="teacher-card" key={title}>
-            <span className="icon-box"><Icon /></span>
-            <h3>{title}</h3>
-            <p>{description}</p>
-          </Link>
-        ))}
-      </div>
+      <p className="hero-placeholder">{slides[active].judul}</p>
     </section>
   )
 }
