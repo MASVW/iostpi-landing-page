@@ -26,7 +26,7 @@ export const slides = [
       "Panglima Komando Cadangan Strategis Angkatan Darat (Pangkostrad) Letnan Jenderal Edy Rahmayadi membuka dan mendukung SCE 2016",
   },
   {
-    filename: `${ASSET_ROOT}/flyer-2.avif`,
+    filename: `${ASSET_ROOT}/flyer-5b.avif`,
     judul: "Kecerian Para Siswa di SCE 2017",
   },
   {
