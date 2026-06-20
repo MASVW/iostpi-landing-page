@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { CalendarDays, Eye, Facebook, MessageCircle, UserRound } from 'lucide-react'
 import { PageHero } from '../components/SiteLayout'
+import { DownloadList } from './ContentPage'
 import { announcementArticles, announcements } from '../data/siteData'
 
 function PublishSidebar({ announcement }) {
@@ -65,6 +66,7 @@ export default function AnnouncementDetailPage() {
                 </section>
               ))}
             </div>
+            <DownloadList files={announcement.files} />
           </article>
           <PublishSidebar announcement={announcement} />
         </div>

@@ -121,7 +121,10 @@ function Header() {
           <p className="region-subtitle">(Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat)</p>
         </div>
         <NavLink to="/" aria-label="Kembali ke beranda">
-          <img className="dikti-logo" src={`${ASSET_ROOT}/sumut-logo.png`} alt="Logo Dikti Saintek" />
+          <div className="brand-header-right-group">
+            <img className="pemprovsu-logo" src={`${ASSET_ROOT}/pemprovsu-logo.png`} alt="Logo Pemerintah Provinsi Sumatera Utara" />
+            <img className="pemko-logo" src={`${ASSET_ROOT}/pemko-medan-logo.png`} alt="Logo Pemerintah Kota Medan" />
+          </div>
         </NavLink>
       </div>
       <Navigation />

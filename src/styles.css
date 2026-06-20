@@ -94,18 +94,22 @@ img {
 }
 
 .brand-header {
-  min-height: 190px;
+  min-height: 170px;
   display: grid;
-  grid-template-columns: 120px 1fr 125px;
+  grid-template-columns: 190px 1fr 170px;
   align-items: center;
   gap: 24px;
 }
-.brand-header-left-group {
+.brand-header-left-group,
+.brand-header-right-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 12px;
+}
+.brand-header-right-group {
+  justify-content: flex-end;
 }
 .uhn-logo {
   width: 82px;
@@ -117,9 +121,11 @@ img {
   height: 88px;
   object-fit: contain;
 }
-.dikti-logo {
-  width: 80px;
-  justify-self: end;
+.pemprovsu-logo,
+.pemko-logo {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
 }
 .brand-copy {
   text-align: center;
@@ -634,6 +640,36 @@ img {
 .placeholder-content {
   min-height: 48px;
 }
+.file-downloads {
+  margin-top: 22px;
+  padding: 18px;
+  border: 1px solid #ccecff;
+  border-radius: 8px;
+  background: #f6fcff;
+}
+.file-downloads h3 {
+  margin: 0 0 12px;
+  color: #0d5d8c;
+  font-size: 18px;
+}
+.file-download-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.file-download-links a {
+  padding: 10px 14px;
+  border-radius: 7px;
+  color: #fff;
+  background: linear-gradient(135deg, #2878b5, #43a9d4);
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 8px 18px rgba(42, 128, 183, 0.18);
+}
+.file-download-links a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(42, 128, 183, 0.25);
+}
 .page-related-menu {
   margin-top: 20px;
   padding: 20px;
@@ -940,7 +976,7 @@ img {
 @media (max-width: 900px) {
   .brand-header {
     min-height: 175px;
-    grid-template-columns: 86px 1fr 92px;
+    grid-template-columns: 155px 1fr 150px;
     gap: 14px;
   }
   .uhn-logo {
@@ -951,8 +987,10 @@ img {
     width: 72px;
     height: 72px;
   }
-  .dikti-logo {
-    width: 90px;
+  .pemprovsu-logo,
+  .pemko-logo {
+    width: 66px;
+    height: 66px;
   }
   .brand-copy h1,
   .brand-copy .tagline {
@@ -1002,11 +1040,12 @@ img {
   }
   .brand-header {
     min-height: 185px;
-    grid-template-columns: 58px 1fr 58px;
+    grid-template-columns: 112px 1fr 90px;
     gap: 8px;
   }
 
-  .brand-header-left-group {
+  .brand-header-left-group,
+  .brand-header-right-group {
     gap: 5px;
   }
 
@@ -1018,8 +1057,10 @@ img {
     width: 56px;
     height: 56px;
   }
-  .dikti-logo {
-    width: 58px;
+  .pemprovsu-logo,
+  .pemko-logo {
+    width: 42px;
+    height: 42px;
   }
   .brand-copy span {
     font-size: 11px;
@@ -1216,7 +1257,20 @@ img {
   }
   .brand-header {
     min-height: 170px;
-    grid-template-columns: 50px 1fr 50px;
+    grid-template-columns: 86px 1fr 74px;
+  }
+  .uhn-logo {
+    width: 39px;
+    height: 39px;
+  }
+  .fokal-usu {
+    width: 42px;
+    height: 42px;
+  }
+  .pemprovsu-logo,
+  .pemko-logo {
+    width: 35px;
+    height: 35px;
   }
   .brand-copy h1,
   .brand-copy .tagline {
