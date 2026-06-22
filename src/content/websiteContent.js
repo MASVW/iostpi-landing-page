@@ -3,8 +3,7 @@
 // - slide hero,
 // - menu terkait,
 // - isi halaman,
-// - daftar pengumuman,
-// - artikel detail pengumuman.
+// - file unduhan halaman.
 //
 // Catatan:
 // - Simpan gambar/file publik di folder public/assets.
@@ -53,7 +52,8 @@ export const mainRelated = [
   { label: "Kompetisi Guru", path: "/page/kompetisi-guru" },
   { label: "Olimpiade Siswa", path: "/page/olimpiade-siswa" },
   { label: "Prosedur Pendaftaran", path: "/page/prosedur-pendaftaran" },
-  { label: "Hasil Lomba", path: "/page/hasil-lomba" },
+  { label: "Kumpulan Soal SCE", path: "/page/kumpulan-soal" },
+  { label: "Lokasi Ujian & Rundown Acara", path: "/page/lokasi-ujian" },
 ];
 
 export const sambutanRelated = [
@@ -87,7 +87,7 @@ export const contentPages = {
   sambutan: {
     title: "Sambutan",
     image: `${ASSET_ROOT}/20260604012432-c7d7530b1563ca1d.png`,
-    related: mainRelated,
+    related: sambutanRelated,
     paragraphs: [
       "Selamat datang di website resmi Pekan Ilmiah dan Olimpiade Sains (PIOS). Kegiatan ini hadir sebagai ruang pengembangan potensi, kreativitas, dan prestasi bagi peserta didik serta guru dalam bidang ilmu pengetahuan, penelitian, dan kompetisi akademik. Melalui PIOS, diharapkan semangat belajar, berpikir kritis, berinovasi, dan berkompetisi secara sehat dapat terus tumbuh di lingkungan pendidikan.",
       "PIOS tidak hanya menjadi ajang perlombaan, tetapi juga wadah untuk memperluas wawasan, membangun kepercayaan diri, serta menumbuhkan budaya ilmiah di kalangan pelajar dan pendidik. Setiap peserta diharapkan dapat menjadikan kegiatan ini sebagai pengalaman berharga untuk mengasah kemampuan, memperkuat karakter, dan meningkatkan daya saing di era perkembangan ilmu pengetahuan dan teknologi.",
@@ -181,80 +181,19 @@ export const contentPages = {
     related: mainRelated,
     paragraphs: ["Prosedur Pendaftaran"],
   },
+  "kumpulan-soal": {
+    title: "Kumpulan Soal SCE",
+    related: mainRelated,
+    paragraphs: ["Kumpulan Soal SCE"],
+  },
+  "lokasi-ujian": {
+    title: "Lokasi Ujian & Rundown Acara",
+    related: mainRelated,
+    paragraphs: ["Lokasi Ujian & Rundown Acara"],
+  },
   "hasil-lomba": {
     title: "Hasil Lomba",
     related: mainRelated,
     paragraphs: ["Hasil Lomba"],
   },
-};
-
-export const announcements = [
-  // Pengumuman juga bisa memiliki file unduhan:
-  // files: [{ label: "Download Surat Edaran", filename: "surat-edaran.pdf" }],
-  {
-    slug: "pengumuman-ketiga",
-    title: "Pengumuman Ketiga",
-    date: "03 Jun 2026",
-    published: "Rabu, 03 Juni 2026 pukul 23:05 WIB",
-    viewers: 4,
-    image: `${ASSET_ROOT}/20260603230544-bb55eccfc642aa38.png`,
-  },
-  {
-    slug: "pengumuman-kedua",
-    title: "Pengumuman Kedua",
-    date: "03 Jun 2026",
-    published: "Rabu, 03 Juni 2026 pukul 22:57 WIB",
-    viewers: 8,
-    image: `${ASSET_ROOT}/20260603225755-1da1b1698ed70111.png`,
-  },
-  {
-    slug: "pengumuman-pertama",
-    title: "Pengumuman Pertama",
-    date: "03 Jun 2026",
-    published: "Rabu, 03 Juni 2026 pukul 22:36 WIB",
-    viewers: 25,
-    image: `${ASSET_ROOT}/20260603224211-22d31f8087f49d0c.png`,
-  },
-];
-
-const loremSections = [
-  {
-    heading: "What is Lorem Ipsum?",
-    paragraphs: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software including versions of Lorem Ipsum.",
-    ],
-  },
-  {
-    heading: "Why do we use it?",
-    paragraphs: [
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-    ],
-  },
-  {
-    heading: "Where does it come from?",
-    paragraphs: [
-      'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
-      'The standard chunk of Lorem Ipsum used since 1966 is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.',
-    ],
-  },
-  {
-    heading: "Where can I get some?",
-    paragraphs: [
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
-    ],
-  },
-];
-
-export const announcementArticles = {
-  "pengumuman-pertama": loremSections,
-  "pengumuman-kedua": loremSections,
-  "pengumuman-ketiga": [
-    {
-      paragraphs: [
-        "evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-      ],
-    },
-    loremSections[2],
-    loremSections[3],
-  ],
 };

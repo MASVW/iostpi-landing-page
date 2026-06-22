@@ -34,7 +34,7 @@ const navigation = [
 function SocialLinks() {
   return (
     <div className="social-links" aria-label="Media sosial">
-      <a href="https://www.facebook.com/Olhttps://www.facebook.com/OlimpiadeUSUU" aria-label="Facebook"><Facebook size={15} /></a>
+      <a href="https://www.facebook.com/OlimpiadeUSU" aria-label="Facebook"><Facebook size={15} /></a>
       <a href="#instagram" aria-label="Instagram"><Instagram size={15} /></a>
       <a href="#youtube" aria-label="YouTube"><Youtube size={15} /></a>
     </div>
@@ -76,7 +76,12 @@ function Navigation() {
         </button>
         <div className={`nav-links ${open ? 'is-open' : ''}`}>
           {navigation.map((item) => (
-            <div className={`nav-item ${expanded === item.label ? 'is-expanded' : ''}`} key={item.label}>
+            <div
+              className={`nav-item ${expanded === item.label ? 'is-expanded' : ''}`}
+              key={item.label}
+              onMouseEnter={() => item.children && setExpanded(item.label)}
+              onMouseLeave={() => item.children && setExpanded('')}
+            >
               {item.children ? (
                 <button
                   className={location.pathname.startsWith(item.path) || item.children.some((child) => child.path === location.pathname) ? 'active' : ''}

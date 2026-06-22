@@ -10,8 +10,7 @@ import {
   Sparkles,
   Trophy,
 } from 'lucide-react'
-import AnnouncementCard from '../components/AnnouncementCard'
-import { announcements, slides } from '../data/siteData'
+import { slides } from '../data/siteData'
 
 const activities = [
   { title: 'Seminar Guru', description: 'Informasi seminar guru PIOS.', icon: MicVocal, path: '/page/seminar-guru' },
@@ -108,25 +107,6 @@ function ActivitySection() {
   )
 }
 
-function AnnouncementSection() {
-  return (
-    <section className="announcements section-pad">
-      <div className="container">
-        <div className="announcement-heading">
-          <div className="section-heading">
-            <span>Informasi Resmi</span>
-            <h2>Pengumuman</h2>
-          </div>
-          <Link className="button button-blue-outline" to="/pengumuman">Semua Pengumuman</Link>
-        </div>
-        <div className="announcement-grid">
-          {announcements.map((item) => <AnnouncementCard item={item} key={item.slug} />)}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 export default function HomePage() {
   useEffect(() => { document.title = 'Olimpiade SCE di USU Medan' }, [])
 
@@ -135,7 +115,6 @@ export default function HomePage() {
       <Hero />
       <PartnerNotes />
       <ActivitySection />
-      <AnnouncementSection />
     </>
   )
 }
