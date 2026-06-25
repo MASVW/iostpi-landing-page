@@ -1,4 +1,7 @@
 .DS_Store
+/dist
+*.zip
+/node_modules
 
 # Frontend
 user/node_modules/
