@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use App\Models\SiteContent;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
@@ -39,6 +40,9 @@ class PublicSiteContentController extends Controller
                 'activities' => $homeActivities ? $this->contentPayload($homeActivities) + [
                     'items' => $this->extractActivities($homeActivities->content),
                 ] : null,
+                'announcements' => [
+                    'items' => $this->latestAnnouncements(),
+                ],
             ],
             'footer' => [
                 'contact' => optional($contents->firstWhere('key', 'footer.contact'), fn (SiteContent $content): array => $this->contentPayload($content)),
@@ -162,7 +166,9 @@ class PublicSiteContentController extends Controller
     {
         return [
             'label' => $content->navigation_label,
-            'path' => '/page/' . $this->pageSlug($content),
+            'path' => $content->key === 'page.pengumuman'
+                ? '/pengumuman'
+                : '/page/' . $this->pageSlug($content),
         ];
     }
 
@@ -198,6 +204,30 @@ class PublicSiteContentController extends Controller
             ->all();
 
         return $items ?: $this->extractPartnerNotes($content->rendered_content);
+    }
+
+    protected function latestAnnouncements(): array
+    {
+        return Announcement::query()
+            ->with('user')
+            ->published()
+            ->orderByDesc('published_at')
+            ->orderByDesc('sort_order')
+            ->orderByDesc('id')
+            ->limit(3)
+            ->get()
+            ->map(fn (Announcement $announcement): array => [
+                'id' => $announcement->id,
+                'title' => $announcement->title,
+                'slug' => $announcement->slug,
+                'path' => '/pengumuman/' . $announcement->slug,
+                'excerpt' => $announcement->excerpt,
+                'image_url' => $announcement->image_url,
+                'published_at' => $announcement->published_at?->toIso8601String(),
+                'publisher_name' => $announcement->publisher_name,
+                'viewers' => $announcement->viewers,
+            ])
+            ->all();
     }
 
     protected function extractHeroSlides(string $html): array

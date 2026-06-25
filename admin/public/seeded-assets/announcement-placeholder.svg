@@ -1,0 +1,14 @@
+<svg width="960" height="540" viewBox="0 0 960 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="540" fill="#ffffff"/>
+  <path d="M720 88L928 88L928 148L720 88Z" fill="#ff7f2a"/>
+  <path d="M480 352L652 382L480 402L480 352Z" fill="#37369b"/>
+  <path d="M214 214C273 208 308 184 344 143L390 340C338 322 290 325 238 350L214 214Z" fill="#d8dddd"/>
+  <path d="M342 143C369 133 406 162 426 231C446 300 429 337 390 340L342 143Z" fill="#c83b36"/>
+  <path d="M214 214L126 234C105 239 93 263 99 288L116 360C122 386 145 402 166 396L238 350L214 214Z" fill="#eb5547"/>
+  <path d="M116 360L157 351L173 419L132 428L116 360Z" fill="#ffbd3f"/>
+  <path d="M173 419C183 419 195 415 203 408L241 377C250 370 251 356 242 348C234 340 221 340 212 347L190 365L184 340C181 328 169 321 158 324L129 332L173 419Z" fill="#f2a33a"/>
+  <path d="M126 234L92 241C79 244 71 258 74 273L95 365C98 380 111 389 124 386L116 360L99 288C93 263 105 239 126 234Z" fill="#eef3f4"/>
+  <path d="M426 231C436 229 448 242 453 263C458 284 452 300 442 302C432 304 420 291 415 270C410 249 416 233 426 231Z" fill="#ffc845"/>
+  <text x="520" y="268" fill="#2b2f35" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700">PENGUMUMAN</text>
+  <path d="M70 340L132 326M76 366L138 352M82 392L144 378" stroke="#d9e2e6" stroke-width="7" stroke-linecap="round"/>
+</svg>
