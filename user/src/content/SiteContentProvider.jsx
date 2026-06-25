@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
+export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
 
 const emptyContent = {
   navigation: [],
@@ -8,6 +8,7 @@ const emptyContent = {
   slides: [],
   partnerNotes: [],
   activities: [],
+  announcements: [],
   footer: {},
 }
 
@@ -22,6 +23,7 @@ function normalizePayload(payload) {
     slides: Array.isArray(payload.home?.hero?.slides) ? payload.home.hero.slides : [],
     partnerNotes: Array.isArray(payload.home?.partner_notes?.items) ? payload.home.partner_notes.items : [],
     activities: Array.isArray(payload.home?.activities?.items) ? payload.home.activities.items : [],
+    announcements: Array.isArray(payload.home?.announcements?.items) ? payload.home.announcements.items : [],
     footer: hasObjectPayload(payload.footer) ? payload.footer : {},
   }
 }

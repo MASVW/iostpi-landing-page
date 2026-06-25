@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { containerClass, sectionPadClass } from '../components/SiteLayout'
 import { useSiteContent } from '../content/SiteContentProvider'
+import { formatDateShort } from '../utils/dateFormat'
 
 const activityIcons = {
   'Seminar Guru': MicVocal,
@@ -136,8 +137,65 @@ function ActivitySection({ activities }) {
   )
 }
 
+function AnnouncementCard({ announcement }) {
+  return (
+    <Link className="group overflow-hidden rounded-lg border border-[#ccecff] bg-white shadow-[0_12px_34px_rgba(13,93,140,0.06)] transition hover:-translate-y-1 hover:border-[#7fc7e8] hover:shadow-[0_18px_42px_rgba(13,93,140,0.12)]" to={announcement.path || `/pengumuman/${announcement.slug}`}>
+      <div className="grid aspect-[1.8] place-items-center bg-white">
+        {announcement.image_url ? (
+          <img className="h-full w-full object-contain" src={announcement.image_url} alt={announcement.title} loading="lazy" />
+        ) : (
+          <div className="grid h-full w-full place-items-center bg-[#f5fbff] text-[#3d9dce]">
+            <Sparkles size={44} strokeWidth={1.4} />
+          </div>
+        )}
+      </div>
+      <div className="p-5">
+        <time className="text-sm font-bold text-[#6f8394]">{formatDateShort(announcement.published_at)}</time>
+        <h3 className="mb-0 mt-2 text-[21px] font-extrabold leading-tight text-[#188fc8] transition group-hover:text-[#0f628d]">
+          {announcement.title}
+        </h3>
+      </div>
+    </Link>
+  )
+}
+
+function AnnouncementSection({ announcements }) {
+  return (
+    <section className="bg-[#f5fbff] py-20 max-[720px]:py-14">
+      <div className={containerClass}>
+        <div className="mb-7 flex items-end justify-between gap-5 max-[720px]:items-start">
+          <div>
+            <span className="block text-sm font-black uppercase tracking-[0.04em] text-[#3d9dce]">Informasi Resmi</span>
+            <h2 className="m-0 mt-2 text-[clamp(34px,4vw,52px)] font-black leading-none text-[#10283a]">Pengumuman</h2>
+          </div>
+          <Link className="rounded-lg border border-[#53add8] px-5 py-3 text-sm font-extrabold text-[#2389ba] transition hover:bg-[#2389ba] hover:text-white max-[720px]:mt-1" to="/pengumuman">
+            Semua Pengumuman
+          </Link>
+        </div>
+        {announcements.length > 0 ? (
+          <div className="grid grid-cols-3 gap-6 max-[900px]:grid-cols-2 max-[720px]:grid-cols-1">
+            {announcements.slice(0, 3).map((announcement) => (
+              <AnnouncementCard announcement={announcement} key={announcement.slug} />
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-lg border border-dashed border-[#9ed8ef] bg-white/80 p-8 text-center shadow-[0_12px_34px_rgba(13,93,140,0.06)]">
+            <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-[#e8f7ff] text-[#3d9dce]">
+              <Sparkles size={28} strokeWidth={1.7} />
+            </div>
+            <h3 className="mb-2 mt-0 text-2xl font-black text-[#10283a]">Tidak ada pengumuman</h3>
+            <p className="mx-auto mb-0 max-w-xl text-sm font-bold leading-6 text-[#5e7383]">
+              Pengumuman resmi akan tampil di sini setelah admin mempublish data pengumuman dari dashboard.
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
 export default function HomePage() {
-  const { activities, partnerNotes, slides } = useSiteContent()
+  const { activities, announcements, partnerNotes, slides } = useSiteContent()
 
   useEffect(() => { document.title = 'Olimpiade SCE di USU Medan' }, [])
 
@@ -146,6 +204,7 @@ export default function HomePage() {
       <Hero slides={slides} />
       <PartnerNotes items={partnerNotes} />
       <ActivitySection activities={activities} />
+      <AnnouncementSection announcements={announcements} />
     </>
   )
 }
