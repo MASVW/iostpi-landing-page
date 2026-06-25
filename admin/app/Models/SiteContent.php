@@ -241,7 +241,7 @@ class SiteContent extends Model
             return $path;
         }
 
-        if (Str::startsWith($path, 'site-content/')) {
+        if (Str::startsWith($path, ['site-content/', 'announcements/'])) {
             return 'storage/' . $path;
         }
 
