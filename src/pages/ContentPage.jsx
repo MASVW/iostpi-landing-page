@@ -33,19 +33,51 @@ export default function ContentPage() {
 
   if (!page) return <Navigate to="/tidak-ditemukan" replace />
 
+  const isProcedure = page.title === "Prosedur Pendaftaran";
+
   return (
     <>
       <PageHero title={page.title} />
       <section className="content-page section-pad">
         <div className="container content-container">
           {page.image && <img className="content-banner" src={page.image} alt={page.title} />}
-          <div className={`content-body ${page.paragraphs.length === 1 ? 'placeholder-content' : ''}`}>
-            {page.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-          </div>
+          {isProcedure ?
+            <div className={`content-body ${page.paragraphs.length === 1 ? 'placeholder-content' : ''}`}>
+              {
+                page.paragraphs.map((paragraph, index) => {
+                  return <>
+                    {index == 1 ?
+                      <a
+                        href="https://drive.google.com/drive/folders/1TIsWu83PVOL3AXvms7xaqONVcBHIGsIy?usp=drive_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: "block",
+                          textAlign: "center",
+                          color: "#0066cc",
+                          fontSize: "20px",
+                          fontWeight: "700",
+                          textDecoration: "underline",
+                          margin: "24px 0",
+                        }}
+                      >
+                        Klik Disini Panduan Pendaftaran Olimpiade SCE 2026
+                      </a>
+                      : null}
+                    <p key={index}>{paragraph}</p>
+                  </>
+                })
+              }
+            </div>
+            :
+            <div className={`content-body ${page.paragraphs.length === 1 ? 'placeholder-content' : ''}`}>
+              {page.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+            </div>
+          }
           <DownloadList files={page.files} />
           <RelatedMenu links={page.related} />
         </div>
-      </section>
+      </section >
     </>
   )
 }

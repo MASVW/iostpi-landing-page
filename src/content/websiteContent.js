@@ -179,7 +179,11 @@ export const contentPages = {
   "prosedur-pendaftaran": {
     title: "Prosedur Pendaftaran",
     related: mainRelated,
-    paragraphs: ["Prosedur Pendaftaran"],
+    paragraphs: [
+      "Sehubungan Website Sedang dalam Penyempurnaan, maka khusus untuk Prosedur & Panduan Pendaftaran Olimpiade SCE 2026 dapat didownload pada Link Berikut:",
+      "",
+      "Surat Undangan Resmi dan Seluruh File pada link tersebut akan diterima oleh seluruh sekolah SD/MI, SMP/MTs, SMA/MA/SMK se Sumatera Bagian Utara yang akan disampaikan oleh PT. POS Indonesia dalam bentuk Print Out pada tanggal 15 Juli 2026. Seluruh file tersebut penggunaannya adalah terhitung sejak 15 Juli 2026, namun panitia sengaja mempublikasikannya sejak dini untuk dapat digunakan sebagai referensi bagi para Kepala Sekolah dan Guru Pendamping atau Guru Pelatih/Pembina Olimpiade mempersiapkan para tim dari sekolah masing-masing.",
+    ],
   },
   "kumpulan-soal": {
     title: "Kumpulan Soal SCE",

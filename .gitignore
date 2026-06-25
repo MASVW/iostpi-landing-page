@@ -4,3 +4,5 @@ package-lock.*
 /node_modules
 *.zip
 /docs
+/admin
+/user
