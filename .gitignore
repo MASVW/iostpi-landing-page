@@ -1,6 +1,29 @@
-/dist
-package-lock.*
 .DS_Store
-/node_modules
-*.zip
-/docs
+
+# Frontend
+user/node_modules/
+user/dist/
+user/dist.zip
+
+# Laravel
+admin/vendor/
+admin/node_modules/
+admin/.env
+admin/database/database.sqlite
+admin/public/storage
+admin/storage/*.key
+admin/storage/app/*
+!admin/storage/app/.gitignore
+!admin/storage/app/public/
+admin/storage/app/public/*
+!admin/storage/app/public/.gitignore
+admin/storage/framework/cache/*
+!admin/storage/framework/cache/.gitignore
+admin/storage/framework/sessions/*
+!admin/storage/framework/sessions/.gitignore
+admin/storage/framework/testing/*
+!admin/storage/framework/testing/.gitignore
+admin/storage/framework/views/*
+!admin/storage/framework/views/.gitignore
+admin/storage/logs/*
+!admin/storage/logs/.gitignore
