@@ -84,19 +84,6 @@ HTML,
                 'sort_order' => 30,
             ],
             [
-                'key' => 'page.sambutan',
-                'navigation_group' => 'Sambutan',
-                'navigation_label' => 'Sambutan',
-                'title' => 'Sambutan',
-                'image_path' => 'seeded-assets/20260604012432-c7d7530b1563ca1d.png',
-                'content' => <<<'HTML'
-<p>Selamat datang di website resmi Pekan Ilmiah dan Olimpiade Sains (PIOS). Kegiatan ini hadir sebagai ruang pengembangan potensi, kreativitas, dan prestasi bagi peserta didik serta guru dalam bidang ilmu pengetahuan, penelitian, dan kompetisi akademik. Melalui PIOS, diharapkan semangat belajar, berpikir kritis, berinovasi, dan berkompetisi secara sehat dapat terus tumbuh di lingkungan pendidikan.</p>
-<p>PIOS tidak hanya menjadi ajang perlombaan, tetapi juga wadah untuk memperluas wawasan, membangun kepercayaan diri, serta menumbuhkan budaya ilmiah di kalangan pelajar dan pendidik. Setiap peserta diharapkan dapat menjadikan kegiatan ini sebagai pengalaman berharga untuk mengasah kemampuan, memperkuat karakter, dan meningkatkan daya saing di era perkembangan ilmu pengetahuan dan teknologi.</p>
-<p>Kami mengucapkan terima kasih kepada seluruh pihak yang telah memberikan dukungan dalam penyelenggaraan kegiatan ini. Semoga PIOS dapat berjalan dengan baik, memberi manfaat yang luas, dan menjadi bagian dari upaya bersama dalam mendorong lahirnya generasi yang unggul, berprestasi, dan berintegritas.</p>
-HTML,
-                'sort_order' => 100,
-            ],
-            [
                 'key' => 'page.sambutan-direktur-iostpi',
                 'navigation_group' => 'Sambutan',
                 'navigation_label' => 'Direktur IOSTPI',
@@ -166,14 +153,6 @@ HTML,
 <p>PIOS berharap Olimpiade Guru dapat menjadi sarana apresiasi bagi para guru yang terus berupaya meningkatkan kualitas diri. Dengan adanya kegiatan ini, guru diharapkan semakin termotivasi untuk menjadi teladan dalam belajar, berprestasi, dan memberikan kontribusi nyata bagi kemajuan pendidikan.</p>
 HTML,
                 'sort_order' => 230,
-            ],
-            [
-                'key' => 'page.olimpiade-siswa',
-                'navigation_group' => 'Olimpiade Siswa',
-                'navigation_label' => 'Olimpiade Siswa',
-                'title' => 'Olimpiade Siswa',
-                'content' => '<p>Olimpiade Siswa</p>',
-                'sort_order' => 300,
             ],
             [
                 'key' => 'page.olimpiade-siswa-sma-ma-smk',

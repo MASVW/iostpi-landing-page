@@ -201,107 +201,67 @@ function Footer() {
   const { footer } = useSiteContent()
   const contactData = footer?.contact?.data || {}
   const partnerData = footer?.partners?.data || {}
-  const contactContent = footer?.contact?.content
-  const partnerContent = footer?.partners?.content
   const contactLogos = Array.isArray(contactData.logos) ? contactData.logos.filter((logo) => logo?.image_url) : []
   const contacts = Array.isArray(contactData.contacts) ? contactData.contacts.filter((contact) => contact?.phone) : []
   const secretariatTitle = contactData.secretariat_title || 'Sekretariat Pendaftaran'
   const secretariatAddress = contactData.secretariat_address || ''
   const partnerHeading = partnerData.heading || 'Dewan Juri LKTI & Seminar Guru Bekerjasama Dengan:'
   const partnerLogos = Array.isArray(partnerData.logos) ? partnerData.logos.filter((logo) => logo?.image_url) : []
-  const hasStructuredContact = contactLogos.length > 0 || contacts.length > 0 || secretariatAddress
-  const hasStructuredPartners = partnerLogos.length > 0
-  const footerFallbackClass = 'px-4 py-[13px] text-sm font-bold leading-normal text-[#e6f7ff]'
-  const contactFooterClass = [
-    'grid grid-cols-[42%_58%] text-sm font-bold leading-normal text-[#e6f7ff]',
-    '[&_h2]:hidden',
-    '[&_h3]:m-0 [&_h3]:border-b [&_h3]:border-white/15 [&_h3]:px-4 [&_h3]:py-[13px] [&_h3]:font-extrabold',
-    '[&_ul]:m-0 [&_ul]:list-none [&_ul]:border-b [&_ul]:border-white/15 [&_ul]:px-4 [&_ul]:py-[13px] [&_ul]:pl-4',
-    '[&_li]:mb-0 [&_li]:leading-[1.5]',
-    '[&_p]:m-0 [&_p]:border-b [&_p]:border-white/15 [&_p]:px-4 [&_p]:py-[13px] [&_p]:font-bold [&_p]:leading-[1.5]',
-    '[&_a]:text-white [&_a]:underline',
-    'max-[720px]:grid-cols-1',
-  ].join(' ')
-  const partnerFooterClass = [
-    'text-sm font-bold leading-normal text-[#e6f7ff]',
-    '[&_a]:text-white [&_a]:underline',
-    '[&_h3]:mb-[11px] [&_h3]:mt-0 [&_h3]:text-[13px] [&_h3]:font-bold [&_h3]:uppercase',
-    '[&_ul]:hidden',
-    '[&_p]:m-0 [&_p]:flex [&_p]:flex-wrap [&_p]:items-center [&_p]:gap-2.5',
-    '[&_img]:h-[62px] [&_img]:w-[62px] [&_img]:rounded-[7px] [&_img]:bg-white [&_img]:p-[5px] [&_img]:object-contain',
-  ].join(' ')
-  const structuredContactClass = [
-    'grid grid-cols-[42%_58%] text-sm font-bold leading-normal text-[#e6f7ff]',
-    'max-[720px]:grid-cols-1',
-  ].join(' ')
 
   return (
     <footer className="bg-[#163f6c] pt-[62px] text-[#e6f7ff]">
       <div className={`${containerClass} grid grid-cols-2 gap-6 max-[900px]:grid-cols-1`}>
-        <div className={contactLogos.length > 0 ? 'grid grid-cols-[auto_1fr]' : ''}>
-          {contactLogos.length > 0 && (
-            <div className="mx-2.5 flex max-w-20 flex-col">
-              {contactLogos.map((logo) => (
-                <img
-                  className="my-[5px] h-[82px] w-[82px] rounded-[7px] bg-white p-[5px] object-contain"
-                  src={logo.image_url}
-                  alt={logo.name || 'Logo footer'}
-                  key={`${logo.name}-${logo.image_url}`}
-                />
-              ))}
-            </div>
-          )}
+        <div className="grid grid-cols-[auto_minmax(0,1fr)] max-[480px]:grid-cols-1 max-[480px]:gap-4">
+          <div className="mx-2.5 flex max-w-20 flex-col max-[480px]:mx-0 max-[480px]:max-w-none max-[480px]:flex-row max-[480px]:flex-wrap max-[480px]:gap-3">
+            {contactLogos.map((logo) => (
+              <img
+                className="my-[5px] h-[82px] w-[82px] rounded-[7px] bg-white px-[5px] py-[5px] object-contain max-[480px]:my-0"
+                src={logo.image_url}
+                alt={logo.name || 'Logo footer'}
+                key={`${logo.name}-${logo.image_url}`}
+              />
+            ))}
+          </div>
           <div className="overflow-hidden rounded-lg border border-white/20 bg-white/[0.03]">
             <div className="flex items-center gap-4 border-b border-white/15 px-4 py-3.5 text-xl">
               <strong>Science Competition Expo</strong>
             </div>
-            {hasStructuredContact ? (
-              <div className={structuredContactClass}>
-                <section>
-                  <h3 className="m-0 border-b border-white/15 px-4 py-[13px] font-extrabold">CP Panitia</h3>
-                  <ul className="m-0 list-none border-b border-white/15 px-4 py-[13px] pl-4">
-                    {contacts.map((contact) => (
-                      <li className="leading-[1.5]" key={`${contact.label}-${contact.phone}`}>
-                        {contact.phone}{contact.label ? ` (${contact.label})` : ''}
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-                <section>
-                  <h3 className="m-0 border-b border-white/15 px-4 py-[13px] font-extrabold">{secretariatTitle}</h3>
-                  <p className="m-0 whitespace-pre-line border-b border-white/15 px-4 py-[13px] leading-[1.5]">{secretariatAddress}</p>
-                </section>
+            <dl className="m-0 text-sm font-bold leading-normal">
+              <div className="grid grid-cols-[42%_58%] border-b border-white/15 px-4 py-[13px] max-[720px]:grid-cols-1 max-[720px]:gap-[5px]">
+                <dt className="font-extrabold">CP Panitia</dt>
+                <dd className="m-0 font-bold leading-[1.5]">
+                  {contacts.length > 0 ? contacts.map((contact) => (
+                    <div key={`${contact.label}-${contact.phone}`}>
+                      {contact.phone}{contact.label ? ` (${contact.label})` : ''}
+                    </div>
+                  )) : 'Kontak belum tersedia.'}
+                </dd>
               </div>
-            ) : contactContent ? (
-              <div className={contactFooterClass} dangerouslySetInnerHTML={{ __html: contactContent }} />
-            ) : (
-              <div className={footerFallbackClass}>Konten kontak footer belum tersedia dari API Laravel.</div>
-            )}
+              <div className="grid grid-cols-[42%_58%] border-b border-white/15 px-4 py-[13px] max-[720px]:grid-cols-1 max-[720px]:gap-[5px]">
+                <dt className="font-extrabold">{secretariatTitle}</dt>
+                <dd className="m-0 whitespace-pre-line font-bold leading-[1.5]">
+                  {secretariatAddress || 'Sekretariat belum tersedia.'}
+                </dd>
+              </div>
+            </dl>
           </div>
         </div>
-        <div className="grid gap-[22px] rounded-lg border border-white/20 bg-white/[0.03] p-[18px]">
-          {hasStructuredPartners ? (
-            <div className="text-sm font-bold leading-normal text-[#e6f7ff]">
-              <h3 className="mb-[11px] mt-0 text-[13px] font-bold uppercase">{partnerHeading}</h3>
-              <div className="flex flex-wrap items-center gap-2.5">
-                {partnerLogos.map((logo) => (
-                  <img
-                    className="h-[62px] w-[62px] rounded-[7px] bg-white p-[5px] object-contain"
-                    src={logo.image_url}
-                    alt={logo.name || 'Logo partner'}
-                    key={`${logo.name}-${logo.image_url}`}
-                  />
-                ))}
-              </div>
+        <div className="grid gap-[22px] overflow-hidden rounded-lg border border-white/20 bg-white/[0.03] p-[18px]">
+          <div>
+            <h3 className="mb-[11px] mt-0 text-[13px] font-bold uppercase">{partnerHeading}</h3>
+            <div className="flex flex-wrap items-center gap-2.5">
+              {partnerLogos.length > 0 ? partnerLogos.map((logo) => (
+                <img
+                  className="h-[62px] w-[62px] rounded-[7px] bg-white p-[5px] object-contain"
+                  src={logo.image_url}
+                  alt={logo.name || 'Logo partner'}
+                  key={`${logo.name}-${logo.image_url}`}
+                />
+              )) : (
+                <p className="m-0 text-sm font-bold leading-normal text-[#e6f7ff]">Logo partner belum tersedia.</p>
+              )}
             </div>
-          ) : partnerContent ? (
-            <div
-              className={partnerFooterClass}
-              dangerouslySetInnerHTML={{ __html: partnerContent }}
-            />
-          ) : (
-            <div className={footerFallbackClass}>Konten partner footer belum tersedia dari API Laravel.</div>
-          )}
+          </div>
         </div>
       </div>
       <div className="mt-[46px] bg-[#0b345c]">

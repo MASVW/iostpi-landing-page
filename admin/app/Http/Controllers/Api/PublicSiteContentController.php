@@ -74,8 +74,8 @@ class PublicSiteContentController extends Controller
         return [
             ['label' => 'Beranda', 'path' => '/'],
             [
-                'label' => $contents->firstWhere('key', 'page.sambutan')?->navigation_label ?? 'Sambutan',
-                'path' => '/page/sambutan',
+                'label' => 'Sambutan',
+                'path' => $sambutanChildren[0]['path'] ?? '/',
                 'children' => $sambutanChildren,
             ],
             [
@@ -84,8 +84,8 @@ class PublicSiteContentController extends Controller
                 'children' => $teacherChildren,
             ],
             [
-                'label' => $contents->firstWhere('key', 'page.olimpiade-siswa')?->navigation_label ?? 'Olimpiade Siswa',
-                'path' => '/page/olimpiade-siswa',
+                'label' => 'Olimpiade Siswa',
+                'path' => $studentChildren[0]['path'] ?? '/',
                 'children' => $studentChildren,
             ],
             ...$this->linksForKeys($contents, [
@@ -128,9 +128,7 @@ class PublicSiteContentController extends Controller
             'Olimpiade Siswa' => $this->groupLinks($contents, 'Olimpiade Siswa', exceptKey: 'page.olimpiade-siswa'),
             default => [
                 ...$this->linksForKeys($contents, [
-                    'page.sambutan',
                     'page.kompetisi-guru',
-                    'page.olimpiade-siswa',
                     'page.prosedur-pendaftaran',
                     'page.kumpulan-soal',
                     'page.lokasi-ujian',

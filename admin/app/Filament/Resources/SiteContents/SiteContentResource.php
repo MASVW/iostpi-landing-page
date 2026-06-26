@@ -34,6 +34,8 @@ class SiteContentResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Konten Website';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -101,6 +103,7 @@ class SiteContentResource extends Resource
                                 ['table', 'attachFiles'],
                                 ['undo', 'redo'],
                             ])
+                            ->extraFieldWrapperAttributes(['class' => 'announcement-content-editor'])
                             ->fileAttachmentsDisk('public')
                             ->fileAttachmentsDirectory('site-content/body')
                             ->fileAttachmentsVisibility('public')

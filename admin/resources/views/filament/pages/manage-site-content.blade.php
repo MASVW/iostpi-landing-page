@@ -1,6 +1,12 @@
 <x-filament-panels::page>
     @php
         $record = $this->getRecord();
+        $structuredData = $record->structured_data ?: [];
+        $partnerNotes = $structuredData['notes'] ?? [];
+        $footerLogos = collect($structuredData['logos'] ?? [])
+            ->filter(fn (mixed $logo): bool => is_array($logo) && filled($logo['image_url'] ?? null))
+            ->values();
+        $footerContacts = $structuredData['contacts'] ?? [];
         $contentTypeLabels = [
             'home' => 'Beranda',
             'page' => 'Halaman',
@@ -216,6 +222,11 @@
             border-color: rgba(51, 65, 85, 0.9);
         }
 
+        .site-content-preview-title-group {
+            display: grid;
+            gap: 0.65rem;
+        }
+
         .site-content-preview-heading {
             color: rgb(15, 23, 42);
             font-size: 1.15rem;
@@ -286,6 +297,172 @@
             border-color: rgba(51, 65, 85, 0.9);
             background: rgba(15, 23, 42, 0.62);
         }
+
+        .partner-notes-preview {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .partner-notes-preview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .partner-note-card {
+            display: flex;
+            min-height: 12rem;
+            flex-direction: column;
+            align-items: flex-start;
+            border: 1px solid rgba(14, 165, 233, 0.22);
+            border-radius: 0.9rem;
+            background: linear-gradient(135deg, rgba(232, 247, 255, 0.94), rgba(217, 239, 252, 0.94));
+            padding: 1.25rem;
+        }
+
+        .dark .partner-note-card {
+            border-color: rgba(14, 165, 233, 0.22);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.86), rgba(30, 41, 59, 0.78));
+        }
+
+        .partner-note-title {
+            margin: 0 0 0.55rem;
+            color: rgb(15, 23, 42);
+            font-size: 1.05rem;
+            font-weight: 850;
+            line-height: 1.25;
+        }
+
+        .dark .partner-note-title {
+            color: rgb(248, 250, 252);
+        }
+
+        .partner-note-description {
+            color: rgb(71, 85, 105);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .dark .partner-note-description {
+            color: rgb(203, 213, 225);
+        }
+
+        .partner-note-description p {
+            margin: 0 0 0.75rem;
+        }
+
+        .partner-note-link {
+            margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            border-radius: 0.55rem;
+            background: rgb(58, 155, 208);
+            padding: 0.55rem 0.85rem;
+            color: white;
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 8px 18px rgba(58, 155, 208, 0.2);
+        }
+
+        .footer-contact-preview {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 1rem;
+            align-items: stretch;
+        }
+
+        @media (max-width: 768px) {
+            .footer-contact-preview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .footer-contact-logos {
+            display: flex;
+            max-width: 5rem;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin: 0 0.65rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-contact-logos {
+                max-width: none;
+                flex-direction: row;
+                flex-wrap: wrap;
+                margin: 0;
+            }
+        }
+
+        .footer-contact-logo {
+            display: grid;
+            height: 5.15rem;
+            width: 5.15rem;
+            place-items: center;
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            border-radius: 0.45rem;
+            background: white;
+            padding: 0.35rem;
+            box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+        }
+
+        .footer-contact-logo img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+        }
+
+        .footer-contact-card {
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 0.5rem;
+            background: rgb(22, 63, 108);
+            color: rgb(230, 247, 255);
+        }
+
+        .footer-contact-card-title {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+            padding: 0.9rem 1rem;
+            font-size: 1.1rem;
+            font-weight: 850;
+        }
+
+        .footer-contact-card dl {
+            margin: 0;
+        }
+
+        .footer-contact-row {
+            display: grid;
+            grid-template-columns: 42% 58%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            line-height: 1.55;
+        }
+
+        @media (max-width: 768px) {
+            .footer-contact-row {
+                grid-template-columns: 1fr;
+                gap: 0.3rem;
+            }
+        }
+
+        .footer-contact-row dt {
+            font-weight: 850;
+        }
+
+        .footer-contact-row dd {
+            margin: 0;
+            font-weight: 700;
+            line-height: 1.55;
+        }
+
+        .footer-contact-row:last-child {
+            border-bottom: 0;
+        }
     </style>
 
     <div>
@@ -332,7 +509,7 @@
 
         <section class="site-content-preview-card">
             <div class="site-content-preview-header">
-                <div>
+                <div class="site-content-preview-title-group">
                     <span class="site-content-kicker">Preview Frontend</span>
                     <h3 class="site-content-preview-heading">
                         {{ $record->title }}
@@ -348,7 +525,7 @@
                 </span>
             </div>
 
-            @if ($record->image_url)
+            @if ($record->image_url && $record->key !== 'footer.contact')
                 <div class="site-content-preview-image">
                     <img src="{{ $record->image_url }}" alt="{{ $record->title }}">
                 </div>
@@ -356,15 +533,72 @@
 
             <div class="site-content-preview-body">
                 <div class="site-content-preview-surface">
-                    <div class="site-content-preview fi-prose max-w-none dark:prose-invert">
-                        @if (blank($record->rendered_content))
-                            <p class="text-sm text-gray-500 dark:text-gray-400">
-                                Belum ada isi konten.
-                            </p>
-                        @else
-                            {!! $record->rendered_content !!}
-                        @endif
-                    </div>
+                    @if ($record->key === 'home.partner-notes')
+                        <div class="partner-notes-preview">
+                            @forelse ($partnerNotes as $note)
+                                <article class="partner-note-card">
+                                    <h4 class="partner-note-title">{{ $note['title'] ?? 'Partner Note' }}</h4>
+                                    <div class="partner-note-description">
+                                        {!! \App\Models\SiteContent::rewriteAssetUrls($note['description'] ?? '') !!}
+                                    </div>
+                                    @if (filled($note['url'] ?? null))
+                                        <a class="partner-note-link" href="{{ $note['url'] }}" target="_blank" rel="noreferrer">View More</a>
+                                    @endif
+                                </article>
+                            @empty
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    Belum ada partner notes.
+                                </p>
+                            @endforelse
+                        </div>
+                    @elseif ($record->key === 'footer.contact')
+                        <div class="footer-contact-preview">
+                            <div class="footer-contact-logos">
+                                @forelse ($footerLogos as $logo)
+                                    <div class="footer-contact-logo">
+                                        <img src="{{ $logo['image_url'] }}" alt="{{ $logo['name'] ?? 'Logo footer' }}">
+                                    </div>
+                                @empty
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Belum ada logo.</p>
+                                @endforelse
+                            </div>
+
+                            <div class="footer-contact-card">
+                                <div class="footer-contact-card-title">Science Competition Expo</div>
+                                <dl>
+                                    <div class="footer-contact-row">
+                                        <dt>CP Panitia</dt>
+                                        <dd>
+                                            @forelse ($footerContacts as $contact)
+                                                <div>
+                                                    {{ $contact['phone'] ?? '-' }}
+                                                    @if (filled($contact['label'] ?? null))
+                                                        ({{ $contact['label'] }})
+                                                    @endif
+                                                </div>
+                                            @empty
+                                                Kontak belum tersedia.
+                                            @endforelse
+                                        </dd>
+                                    </div>
+                                    <div class="footer-contact-row">
+                                        <dt>{{ $structuredData['secretariat_title'] ?? 'Sekretariat Pendaftaran' }}</dt>
+                                        <dd>{{ $structuredData['secretariat_address'] ?? 'Sekretariat belum tersedia.' }}</dd>
+                                    </div>
+                                </dl>
+                            </div>
+                        </div>
+                    @else
+                        <div class="site-content-preview fi-prose max-w-none dark:prose-invert">
+                            @if (blank($record->rendered_content))
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    Belum ada isi konten.
+                                </p>
+                            @else
+                                {!! $record->rendered_content !!}
+                            @endif
+                        </div>
+                    @endif
                 </div>
             </div>
         </section>

@@ -48,10 +48,7 @@ class AnnouncementResource extends Resource
                         TextInput::make('title')
                             ->label('Judul')
                             ->required()
-                            ->maxLength(255),
-                        TextInput::make('slug')
-                            ->label('Slug URL')
-                            ->helperText('Boleh dikosongkan. Sistem akan membuat slug dari judul.')
+                            ->columnSpanFull()
                             ->maxLength(255),
                         Textarea::make('excerpt')
                             ->label('Ringkasan')
@@ -63,25 +60,34 @@ class AnnouncementResource extends Resource
                             ->seconds(false)
                             ->default(now())
                             ->required(),
-                        TextInput::make('sort_order')
-                            ->label('Urutan')
-                            ->numeric()
-                            ->default(0),
                         Toggle::make('is_published')
                             ->label('Aktif / Dipublish')
                             ->default(true),
-                        TextInput::make('viewers')
-                            ->label('Viewers')
-                            ->numeric()
-                            ->disabled()
-                            ->dehydrated(false),
                     ]),
-                Section::make('Media Utama')
-                    ->description('Gambar pengumuman diupload dari field ini, bukan dari editor isi.')
-                    ->schema([
-                        static::imageUpload(),
-                    ]),
+                Section::make()->schema([
+                    Section::make('Media Utama')
+                        ->description('Gambar pengumuman diupload dari field ini, bukan dari editor isi.')
+                        ->schema([
+                            static::imageUpload(),
+                        ]),
+                    Section::make('Link Bagikan')
+                        ->description('Jika kosong, frontend akan memakai link share otomatis menuju halaman detail pengumuman.')
+                        ->columns(2)
+                        ->schema([
+                            TextInput::make('whatsapp_url')
+                                ->label('Link WhatsApp')
+                                ->placeholder('https://wa.me/...')
+                                ->url()
+                                ->maxLength(255),
+                            TextInput::make('facebook_url')
+                                ->label('Link Facebook')
+                                ->placeholder('https://facebook.com/...')
+                                ->url()
+                                ->maxLength(255),
+                        ]),
+                ]),
                 Section::make('Isi Pengumuman')
+                    ->columnSpanFull()
                     ->schema([
                         RichEditor::make('content')
                             ->label('Konten')
@@ -95,23 +101,9 @@ class AnnouncementResource extends Resource
                                 ['table'],
                                 ['undo', 'redo'],
                             ])
+                            ->extraFieldWrapperAttributes(['class' => 'announcement-content-editor'])
                             ->resizableImages()
                             ->columnSpanFull(),
-                    ]),
-                Section::make('Link Bagikan')
-                    ->description('Jika kosong, frontend akan memakai link share otomatis menuju halaman detail pengumuman.')
-                    ->columns(2)
-                    ->schema([
-                        TextInput::make('whatsapp_url')
-                            ->label('Link WhatsApp')
-                            ->placeholder('https://wa.me/...')
-                            ->url()
-                            ->maxLength(255),
-                        TextInput::make('facebook_url')
-                            ->label('Link Facebook')
-                            ->placeholder('https://facebook.com/...')
-                            ->url()
-                            ->maxLength(255),
                     ]),
             ]);
     }
@@ -214,7 +206,7 @@ class AnnouncementResource extends Resource
             ->directory('announcements')
             ->visibility('public')
             ->fetchFileInformation(false)
-            ->getUploadedFileUsing(static function (string $file, string | array | null $storedFileNames): ?array {
+            ->getUploadedFileUsing(static function (string $file, string|array|null $storedFileNames): ?array {
                 $url = SiteContent::resolveAssetUrl($file);
 
                 if (blank($url)) {

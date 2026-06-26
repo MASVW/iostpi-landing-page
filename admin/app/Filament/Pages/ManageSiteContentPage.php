@@ -64,7 +64,6 @@ abstract class ManageSiteContentPage extends Page
             'home.hero' => Heroicon::OutlinedPhoto,
             'home.partner-notes' => Heroicon::OutlinedChatBubbleLeftRight,
             'home.activities' => Heroicon::OutlinedSquares2x2,
-            'page.sambutan',
             'page.sambutan-direktur-iostpi',
             'page.sambutan-ketua-fokal-usu',
             'page.sambutan-ketua-panitia' => Heroicon::OutlinedUserGroup,
@@ -72,7 +71,6 @@ abstract class ManageSiteContentPage extends Page
             'page.lkti-guru',
             'page.seminar-guru' => Heroicon::OutlinedPresentationChartBar,
             'page.olimpiade-guru' => Heroicon::OutlinedTrophy,
-            'page.olimpiade-siswa',
             'page.olimpiade-siswa-sma-ma-smk',
             'page.olimpiade-siswa-smp-mts',
             'page.olimpiade-siswa-sd-mi' => Heroicon::OutlinedAcademicCap,
@@ -349,6 +347,7 @@ abstract class ManageSiteContentPage extends Page
                 ['table', 'attachFiles'],
                 ['undo', 'redo'],
             ])
+            ->extraFieldWrapperAttributes(['class' => 'announcement-content-editor'])
             ->fileAttachmentsDisk('public')
             ->fileAttachmentsDirectory('site-content/body')
             ->fileAttachmentsVisibility('public')

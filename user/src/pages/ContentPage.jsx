@@ -46,15 +46,7 @@ export default function ContentPage() {
           {imageUrl && <img className="w-full max-h-[570px] object-cover max-[720px]:max-h-none" src={imageUrl} alt={page.title} />}
           <div
             className={[
-              'text-base leading-[1.72] text-[#132638]',
-              '[&_a]:font-bold [&_a]:text-[#276c94] [&_a]:underline',
-              '[&_h1]:mb-4 [&_h1]:mt-6 [&_h1]:text-3xl [&_h1]:font-black [&_h1]:leading-tight',
-              '[&_h2]:mb-3 [&_h2]:mt-6 [&_h2]:text-2xl [&_h2]:font-extrabold [&_h2]:leading-tight',
-              '[&_h3]:mb-3 [&_h3]:mt-5 [&_h3]:text-xl [&_h3]:font-extrabold',
-              '[&_h4]:mb-2 [&_h4]:mt-4 [&_h4]:text-lg [&_h4]:font-bold',
-              '[&_h5]:mb-2 [&_h5]:mt-4 [&_h5]:font-bold',
-              '[&_img]:my-5 [&_img]:max-h-[570px] [&_img]:w-full [&_img]:rounded-lg [&_img]:object-cover',
-              '[&_li]:mb-2 [&_ol]:mb-[18px] [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mb-[18px] [&_p]:mt-0 [&_p:last-child]:mb-0 [&_ul]:mb-[18px] [&_ul]:list-disc [&_ul]:pl-6',
+              'rich-content',
               imageUrl ? 'pt-0' : '',
             ].join(' ')}
             dangerouslySetInnerHTML={{ __html: html }}
