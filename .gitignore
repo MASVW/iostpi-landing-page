@@ -3,6 +3,14 @@
 *.zip
 /node_modules
 
+# Private documents
+outputs/Panduan_Penggunaan_Admin_Website_SCE.docx
+outputs/livin_mandiri_mar_jun_2026/
+outputs/*keuangan*
+outputs/*Keuangan*
+outputs/*finance*
+outputs/*Finance*
+
 # Frontend
 user/node_modules/
 user/dist/
