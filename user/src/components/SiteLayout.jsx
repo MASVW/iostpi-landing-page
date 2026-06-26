@@ -24,16 +24,18 @@ const navButtonClass = (active = false) => [
 ].join(' ')
 
 function ApiGate({ children }) {
-  const { apiBaseUrl, error, isReady, loading, navigation, pages, reload } = useSiteContent()
+  const { error, isReady, loading, navigation, pages, reload } = useSiteContent()
   const hasFrontendData = navigation.length > 0 && Object.keys(pages).length > 0
 
   if (loading) {
     return (
       <div className="grid min-h-screen place-items-center bg-[#f5fbff] px-5 text-center text-[#173e5d]">
-        <div className="max-w-xl rounded-2xl border border-[#ccecff] bg-white p-8 shadow-[0_18px_45px_rgba(25,93,139,0.12)]">
-          <p className="mb-2 text-sm font-black uppercase tracking-[0.12em] text-[#3d9dce]">Memuat Konten</p>
-          <h1 className="m-0 text-2xl font-black">Mengambil data dari API Laravel...</h1>
-          <p className="mb-0 mt-4 text-sm leading-6 text-[#5e7383]">{apiBaseUrl}/api/site-content/frontend</p>
+        <div className="flex max-w-md flex-col items-center rounded-2xl border border-[#ccecff] bg-white p-8 shadow-[0_18px_45px_rgba(25,93,139,0.12)]">
+          <div className="mb-5 grid h-14 w-14 place-items-center rounded-full bg-[#e8f7ff]">
+            <div className="h-7 w-7 animate-spin rounded-full border-4 border-[#ccecff] border-t-[#3d9dce]" />
+          </div>
+          <p className="mb-2 text-sm font-black uppercase tracking-[0.12em] text-[#3d9dce]">Memuat Website</p>
+          <h1 className="m-0 text-2xl font-black">Mohon tunggu sebentar...</h1>
         </div>
       </div>
     )
@@ -43,23 +45,14 @@ function ApiGate({ children }) {
     return (
       <div className="grid min-h-screen place-items-center bg-[#f5fbff] px-5 text-[#173e5d]">
         <div className="max-w-2xl rounded-2xl border border-[#ccecff] bg-white p-8 shadow-[0_18px_45px_rgba(25,93,139,0.12)]">
-          <p className="mb-2 text-sm font-black uppercase tracking-[0.12em] text-[#3d9dce]">API Laravel Dibutuhkan</p>
-          <h1 className="m-0 text-3xl font-black leading-tight">Frontend ini sekarang membaca konten dari backend.</h1>
+          <p className="mb-2 text-sm font-black uppercase tracking-[0.12em] text-[#3d9dce]">Konten Belum Tersedia</p>
+          <h1 className="m-0 text-3xl font-black leading-tight">Website belum dapat memuat konten.</h1>
           <p className="mb-0 mt-4 leading-7 text-[#5e7383]">
-            Pastikan Laravel sudah menjalankan migration, server API aktif, dan `VITE_API_BASE_URL`
-            mengarah ke backend yang benar.
+            Silakan coba muat ulang halaman. Jika masalah masih terjadi, hubungi administrator website.
           </p>
-          <div className="mt-5 rounded-lg bg-[#effaff] p-4 text-sm font-bold text-[#276c94]">
-            Endpoint yang dipakai: {apiBaseUrl}/api/site-content/frontend
-          </div>
-          {error && (
+          {(error || !hasFrontendData) && (
             <p className="mb-0 mt-4 rounded-lg bg-[#fff4e1] p-4 text-sm font-bold text-[#8a5a00]">
-              Error: {error.message}
-            </p>
-          )}
-          {!error && !hasFrontendData && (
-            <p className="mb-0 mt-4 rounded-lg bg-[#fff4e1] p-4 text-sm font-bold text-[#8a5a00]">
-              API sudah merespons, tetapi data navigasi atau halaman belum tersedia.
+              Konten sedang tidak dapat ditampilkan saat ini.
             </p>
           )}
           <button

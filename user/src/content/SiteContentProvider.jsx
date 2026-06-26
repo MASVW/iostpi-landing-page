@@ -81,7 +81,6 @@ export function SiteContentProvider({ children }) {
     loading,
     error,
     isReady: Boolean(payload && !error),
-    apiBaseUrl: API_BASE_URL,
     reload,
   }), [normalizedPayload, loading, error, payload, reload])
 
