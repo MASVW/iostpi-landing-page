@@ -32,10 +32,10 @@
 
         .sce-dashboard-hero-inner {
             display: grid;
-            grid-template-columns: minmax(0, 0.8fr) minmax(20rem, 1.2fr);
-            gap: 1.5rem;
+            grid-template-columns: minmax(18rem, 0.95fr) minmax(20rem, 1.05fr);
+            gap: 1.25rem;
             align-items: stretch;
-            padding: 1.35rem;
+            padding: 1.25rem;
         }
 
         @media (max-width: 1024px) {
@@ -59,26 +59,26 @@
         }
 
         .sce-dashboard-title {
-            margin: 1rem 0 0.7rem;
-            max-width: 34rem;
-            font-size: clamp(2rem, 5vw, 4.2rem);
-            font-weight: 950;
-            letter-spacing: -0.055em;
-            line-height: 0.95;
+            margin: 1rem 0 0.75rem;
+            max-width: 30rem;
+            font-size: clamp(2rem, 3.5vw, 3.15rem);
+            font-weight: 900;
+            letter-spacing: -0.045em;
+            line-height: 1.03;
         }
 
         .sce-dashboard-lead {
             margin: 0;
-            max-width: 38rem;
+            max-width: 31rem;
             color: rgba(239, 246, 255, 0.82);
-            font-size: 1rem;
-            line-height: 1.7;
+            font-size: 0.98rem;
+            line-height: 1.65;
         }
 
         .sce-dashboard-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.65rem;
+            gap: 0.6rem;
             margin-top: 1.25rem;
         }
 
@@ -87,9 +87,9 @@
             align-items: center;
             border-radius: 0.9rem;
             background: white;
-            padding: 0.7rem 1rem;
+            padding: 0.68rem 0.9rem;
             color: rgb(14, 51, 91);
-            font-size: 0.86rem;
+            font-size: 0.82rem;
             font-weight: 850;
             text-decoration: none;
             box-shadow: 0 14px 30px rgba(8, 47, 73, 0.18);
@@ -431,10 +431,10 @@
             <div class="sce-dashboard-hero-inner">
                 <div>
                     <span class="sce-dashboard-kicker">Hi Admin SCE</span>
-                    <h2 class="sce-dashboard-title">Kelola konten website dari satu tempat.</h2>
+                    <h2 class="sce-dashboard-title">Pantau konten utama website SCE.</h2>
                     <p class="sce-dashboard-lead">
-                        Pantau slide hero, pengumuman, dan partner notes terbaru sebelum tampil ke peserta.
-                        Dashboard ini mengikuti data yang sedang tersimpan di admin.
+                        Lihat ringkasan hero carousel, pengumuman, dan partner notes terbaru sebelum dipublikasikan
+                        ke peserta.
                     </p>
 
                     <div class="sce-dashboard-actions">
