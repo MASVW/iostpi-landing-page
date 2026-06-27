@@ -107,6 +107,7 @@ class SiteContentResource extends Resource
                             ->fileAttachmentsDisk('public')
                             ->fileAttachmentsDirectory('site-content/body')
                             ->fileAttachmentsVisibility('public')
+                            ->resizableImages()
                             ->columnSpanFull(),
                     ]),
             ]);

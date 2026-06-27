@@ -2,6 +2,7 @@
 /dist
 *.zip
 /node_modules
+/output
 
 # Private documents
 outputs/Panduan_Penggunaan_Admin_Website_SCE.docx

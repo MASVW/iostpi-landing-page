@@ -144,13 +144,17 @@
 
 .rich-content img {
   display: block;
-  max-height: 570px;
-  width: auto;
   max-width: 100%;
+  height: auto;
+  max-height: none;
   margin: 1.25rem auto;
   border-radius: 0.85rem;
   object-fit: contain;
   box-shadow: 0 14px 34px rgba(13, 93, 140, 0.12);
+}
+
+.rich-content img:not([width]):not([style*="width"]) {
+  width: 100%;
 }
 
 .rich-content hr {
