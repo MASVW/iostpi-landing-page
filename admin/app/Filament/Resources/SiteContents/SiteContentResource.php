@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\SiteContents;
 
+use App\Filament\RichContentPlugins\ResponsiveImageSizingPlugin;
 use App\Filament\Resources\SiteContents\Pages\ManageSiteContents;
 use App\Models\SiteContent;
 use BackedEnum;
@@ -108,6 +109,9 @@ class SiteContentResource extends Resource
                             ->fileAttachmentsDirectory('site-content/body')
                             ->fileAttachmentsVisibility('public')
                             ->resizableImages()
+                            ->plugins([
+                                ResponsiveImageSizingPlugin::make(),
+                            ])
                             ->columnSpanFull(),
                     ]),
             ]);

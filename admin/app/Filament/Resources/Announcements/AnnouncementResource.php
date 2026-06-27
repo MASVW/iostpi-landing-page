@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Announcements;
 
+use App\Filament\RichContentPlugins\ResponsiveImageSizingPlugin;
 use App\Filament\Resources\Announcements\Pages\ManageAnnouncements;
 use App\Models\Announcement;
 use App\Models\SiteContent;
@@ -103,6 +104,9 @@ class AnnouncementResource extends Resource
                             ])
                             ->extraFieldWrapperAttributes(['class' => 'announcement-content-editor'])
                             ->resizableImages()
+                            ->plugins([
+                                ResponsiveImageSizingPlugin::make(),
+                            ])
                             ->columnSpanFull(),
                     ]),
             ]);

@@ -144,7 +144,7 @@
 
 .rich-content img {
   display: block;
-  width: 100% !important;
+  width: 100%;
   max-width: 100%;
   height: auto !important;
   max-height: none !important;

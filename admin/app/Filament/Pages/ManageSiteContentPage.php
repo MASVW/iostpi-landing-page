@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\RichContentPlugins\ResponsiveImageSizingPlugin;
 use App\Models\SiteContent;
 use BackedEnum;
 use Filament\Actions\Action;
@@ -352,6 +353,9 @@ abstract class ManageSiteContentPage extends Page
             ->fileAttachmentsDirectory('site-content/body')
             ->fileAttachmentsVisibility('public')
             ->resizableImages()
+            ->plugins([
+                ResponsiveImageSizingPlugin::make(),
+            ])
             ->columnSpanFull();
     }
 
