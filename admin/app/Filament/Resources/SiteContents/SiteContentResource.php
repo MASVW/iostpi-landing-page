@@ -95,6 +95,7 @@ class SiteContentResource extends Resource
                             ->downloadable(),
                         RichEditor::make('content')
                             ->label('Konten')
+                            ->helperText('Kanvas editor selalu terang agar warna teks sama dengan tampilan frontend.')
                             ->required()
                             ->formatStateUsing(fn (?string $state): string => SiteContent::rewriteAssetUrls($state))
                             ->toolbarButtons([
@@ -140,6 +141,7 @@ class SiteContentResource extends Resource
                             ->columnSpanFull(),
                         TextEntry::make('rendered_content')
                             ->label('Isi')
+                            ->extraEntryWrapperAttributes(['class' => 'frontend-rich-preview'])
                             ->formatStateUsing(fn (?string $state): string => static::formatPreviewHtml($state))
                             ->html()
                             ->prose()

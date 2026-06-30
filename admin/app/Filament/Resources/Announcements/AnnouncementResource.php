@@ -93,6 +93,7 @@ class AnnouncementResource extends Resource
                     ->schema([
                         RichEditor::make('content')
                             ->label('Konten')
+                            ->helperText('Kanvas editor selalu terang agar warna teks sama dengan tampilan frontend.')
                             ->required()
                             ->formatStateUsing(fn (?string $state): string => SiteContent::rewriteAssetUrls($state))
                             ->toolbarButtons([
@@ -141,6 +142,7 @@ class AnnouncementResource extends Resource
                             ->badge(),
                         TextEntry::make('rendered_content')
                             ->label('Isi')
+                            ->extraEntryWrapperAttributes(['class' => 'frontend-rich-preview'])
                             ->html()
                             ->prose()
                             ->columnSpanFull(),

@@ -403,7 +403,7 @@
 
         .dark .partner-note-card {
             border-color: rgba(14, 165, 233, 0.22);
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.86), rgba(30, 41, 59, 0.78));
+            background: linear-gradient(135deg, rgba(232, 247, 255, 0.94), rgba(217, 239, 252, 0.94));
         }
 
         .partner-note-title {
@@ -415,7 +415,7 @@
         }
 
         .dark .partner-note-title {
-            color: rgb(248, 250, 252);
+            color: rgb(15, 23, 42);
         }
 
         .partner-note-description {
@@ -425,7 +425,7 @@
         }
 
         .dark .partner-note-description {
-            color: rgb(203, 213, 225);
+            color: rgb(71, 85, 105);
         }
 
         .partner-note-description p {
@@ -612,7 +612,7 @@
             @endif
 
             <div class="site-content-preview-body">
-                <div class="site-content-preview-surface">
+                <div class="site-content-preview-surface frontend-rich-preview">
                     @if ($record->key === 'header.banner')
                         <div
                             class="header-banner-preview"

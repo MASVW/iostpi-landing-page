@@ -551,7 +551,7 @@
                         <article class="sce-note-card">
                             <h4 class="sce-note-title">{{ $note['title'] }}</h4>
                             @if (filled($note['description']))
-                                <div class="sce-note-text fi-prose">
+                                <div class="sce-note-text fi-prose frontend-rich-prose">
                                     {!! $note['description'] !!}
                                 </div>
                             @else

@@ -398,6 +398,7 @@ abstract class ManageSiteContentPage extends Page
     {
         return RichEditor::make($name)
             ->label($label)
+            ->helperText('Kanvas editor selalu terang agar warna teks sama dengan tampilan frontend.')
             ->formatStateUsing(fn (?string $state): string => SiteContent::rewriteAssetUrls($state))
             ->toolbarButtons([
                 ['bold', 'italic', 'underline', 'strike', 'link', 'inlineTextColor'],
