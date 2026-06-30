@@ -292,7 +292,7 @@
         .header-banner-preview {
             display: grid;
             min-height: 10.5rem;
-            grid-template-columns: minmax(8rem, 1fr) minmax(18rem, 2.5fr) minmax(8rem, 1fr);
+            grid-template-columns: minmax(8rem, 1fr) minmax(0, 2.5fr) minmax(8rem, 1fr);
             align-items: center;
             gap: 1.25rem;
             border-radius: 0.9rem;
@@ -317,12 +317,21 @@
         }
 
         .header-banner-copy {
+            min-width: 0;
             text-align: center;
         }
 
         .header-banner-copy h4,
         .header-banner-copy p {
             margin: 0;
+        }
+
+        .header-banner-copy [data-banner-fit] {
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-align: center;
         }
 
         .header-banner-heading,
@@ -353,12 +362,15 @@
 
         @media (max-width: 768px) {
             .header-banner-preview {
-                grid-template-columns: 1fr;
+                min-height: 8.5rem;
+                grid-template-columns: minmax(4.5rem, 1fr) minmax(0, 3fr) minmax(4.5rem, 1fr);
+                gap: 0.5rem;
+                padding: 0.75rem;
             }
 
-            .header-banner-logos,
-            .header-banner-logos.is-right {
-                justify-content: center;
+            .header-banner-logo {
+                width: 3rem;
+                height: 3rem;
             }
         }
 
@@ -617,6 +629,40 @@
                         <div
                             class="header-banner-preview"
                             style="background-color: {{ $structuredData['background_color'] ?? '#f5fbff' }}"
+                            x-data="{
+                                resizeObserver: null,
+                                fitBannerText() {
+                                    this.$el.querySelectorAll('[data-banner-fit]').forEach((element) => {
+                                        element.style.fontSize = '';
+
+                                        const availableWidth = element.clientWidth;
+                                        const naturalWidth = element.scrollWidth;
+
+                                        if (! availableWidth || naturalWidth <= availableWidth) return;
+
+                                        const baseFontSize = Number.parseFloat(window.getComputedStyle(element).fontSize);
+
+                                        if (! baseFontSize) return;
+
+                                        let fittedFontSize = baseFontSize * (availableWidth / naturalWidth) * 0.985;
+                                        element.style.fontSize = `${Math.max(1, fittedFontSize)}px`;
+
+                                        for (let attempt = 0; attempt < 2 && element.scrollWidth > availableWidth; attempt += 1) {
+                                            fittedFontSize *= (availableWidth / element.scrollWidth) * 0.985;
+                                            element.style.fontSize = `${Math.max(1, fittedFontSize)}px`;
+                                        }
+                                    });
+                                },
+                                init() {
+                                    this.$nextTick(() => this.fitBannerText());
+                                    this.resizeObserver = new ResizeObserver(() => this.fitBannerText());
+                                    this.resizeObserver.observe(this.$el);
+                                    document.fonts?.ready.then(() => this.fitBannerText());
+                                },
+                                destroy() {
+                                    this.resizeObserver?.disconnect();
+                                },
+                            }"
                         >
                             <div class="header-banner-logos">
                                 @forelse ($headerLeftLogos as $logo)
@@ -627,16 +673,16 @@
                             </div>
 
                             <div class="header-banner-copy">
-                                <h4 class="header-banner-heading" style="color: {{ $structuredData['primary_text_color'] ?? '#2b638f' }}">
+                                <h4 class="header-banner-heading" data-banner-fit style="color: {{ $structuredData['primary_text_color'] ?? '#2b638f' }}">
                                     {{ $structuredData['heading'] ?? 'SCIENCE COMPETITION EXPO' }}
                                 </h4>
-                                <p class="header-banner-edition" style="color: {{ $structuredData['primary_text_color'] ?? '#2b638f' }}">
+                                <p class="header-banner-edition" data-banner-fit style="color: {{ $structuredData['primary_text_color'] ?? '#2b638f' }}">
                                     {{ $structuredData['edition'] ?? 'SCE - 2026' }}
                                 </p>
-                                <p class="header-banner-region" style="color: {{ $structuredData['primary_text_color'] ?? '#2b638f' }}">
+                                <p class="header-banner-region" data-banner-fit style="color: {{ $structuredData['primary_text_color'] ?? '#2b638f' }}">
                                     {{ $structuredData['region_heading'] ?? 'SE SUMATERA BAGIAN UTARA' }}
                                 </p>
-                                <p class="header-banner-detail" style="color: {{ $structuredData['secondary_text_color'] ?? '#31536b' }}">
+                                <p class="header-banner-detail" data-banner-fit style="color: {{ $structuredData['secondary_text_color'] ?? '#31536b' }}">
                                     {{ $structuredData['region_detail'] ?? '(Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat)' }}
                                 </p>
                             </div>

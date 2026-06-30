@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import {
   ChevronDown,
@@ -15,6 +15,84 @@ export const sectionPadClass = 'py-16 max-[720px]:py-[49px]'
 export const primaryButtonClass = 'inline-flex min-h-12 items-center justify-center rounded-lg bg-[#ffc845] px-[17px] font-bold text-[#12202a] shadow-[0_6px_18px_rgba(255,200,69,0.2)] transition hover:-translate-y-0.5'
 
 const ASSET_ROOT = '/assets'
+
+function SingleLineFitText({ as: Tag = 'p', children, className = '', style }) {
+  const textRef = useRef(null)
+
+  useLayoutEffect(() => {
+    const element = textRef.current
+
+    if (!element) return undefined
+
+    let animationFrame = null
+    let isCancelled = false
+    let observedWidth = null
+
+    const fitText = () => {
+      if (isCancelled) return
+
+      element.style.fontSize = ''
+
+      const availableWidth = element.clientWidth
+      const naturalWidth = element.scrollWidth
+
+      if (!availableWidth || naturalWidth <= availableWidth) return
+
+      const baseFontSize = Number.parseFloat(window.getComputedStyle(element).fontSize)
+
+      if (!baseFontSize) return
+
+      let fittedFontSize = baseFontSize * (availableWidth / naturalWidth) * 0.985
+
+      element.style.fontSize = `${Math.max(1, fittedFontSize)}px`
+
+      // Recheck after browser rounding so the line never gains an extra wrap.
+      for (let attempt = 0; attempt < 2 && element.scrollWidth > availableWidth; attempt += 1) {
+        fittedFontSize *= (availableWidth / element.scrollWidth) * 0.985
+        element.style.fontSize = `${Math.max(1, fittedFontSize)}px`
+      }
+    }
+
+    const scheduleFit = () => {
+      window.cancelAnimationFrame(animationFrame)
+      animationFrame = window.requestAnimationFrame(fitText)
+    }
+
+    const resizeObserver = typeof ResizeObserver === 'undefined'
+      ? null
+      : new ResizeObserver(([entry]) => {
+          const nextWidth = entry?.contentRect.width ?? 0
+
+          if (observedWidth !== null && Math.abs(observedWidth - nextWidth) < 0.5) return
+
+          observedWidth = nextWidth
+          scheduleFit()
+        })
+
+    resizeObserver?.observe(element)
+    window.addEventListener('resize', scheduleFit)
+    document.fonts?.ready.then(scheduleFit)
+    scheduleFit()
+
+    return () => {
+      isCancelled = true
+      resizeObserver?.disconnect()
+      window.removeEventListener('resize', scheduleFit)
+      window.cancelAnimationFrame(animationFrame)
+    }
+  }, [children, className])
+
+  return (
+    <Tag
+      ref={textRef}
+      className={`block w-full overflow-hidden whitespace-nowrap text-center ${className}`}
+      style={style}
+      data-fit-text
+    >
+      {children}
+    </Tag>
+  )
+}
 
 const navButtonClass = (active = false) => [
   'flex min-h-[45px] w-full cursor-pointer items-center justify-center gap-1 rounded-[9px] border border-white/25 px-2.5 text-center text-[15px] font-extrabold leading-[1.08] text-white [text-shadow:0_1px_rgba(0,0,0,0.25)] transition hover:bg-white/[0.18]',
@@ -185,7 +263,7 @@ function Header() {
     <header>
       <TopBar />
       <div style={{ backgroundColor: banner.background_color || '#f5fbff' }}>
-        <div className={`${containerClass} grid min-h-[170px] grid-cols-[190px_1fr_170px] items-center gap-6 max-[900px]:min-h-[175px] max-[900px]:grid-cols-[155px_1fr_150px] max-[900px]:gap-3.5 max-[720px]:min-h-[185px] max-[720px]:grid-cols-[112px_1fr_90px] max-[720px]:gap-2 max-[420px]:min-h-[170px] max-[420px]:grid-cols-[86px_1fr_74px]`}>
+        <div className={`${containerClass} grid min-h-[170px] grid-cols-[190px_minmax(0,1fr)_190px] items-center gap-6 max-[900px]:min-h-[175px] max-[900px]:grid-cols-[155px_minmax(0,1fr)_155px] max-[900px]:gap-3.5 max-[720px]:min-h-[185px] max-[720px]:grid-cols-[112px_minmax(0,1fr)_112px] max-[720px]:gap-2 max-[420px]:min-h-[170px] max-[420px]:grid-cols-[86px_minmax(0,1fr)_86px]`}>
         <NavLink to="/" aria-label="Kembali ke beranda">
           <div className="flex flex-row flex-wrap items-center justify-center gap-3 max-[720px]:gap-[5px]">
             {leftLogos.map((logo) => (
@@ -199,10 +277,18 @@ function Header() {
           </div>
         </NavLink>
         <div className="text-center">
-          <h1 className="mb-1 text-[clamp(25px,3vw,37px)] font-black uppercase leading-[1.12] max-[900px]:text-[27px] max-[720px]:mt-[7px] max-[720px]:mb-[3px] max-[720px]:text-[22px] max-[720px]:leading-[1.15] max-[420px]:text-lg" style={{ color: primaryTextColor }}>{banner.heading || 'SCIENCE COMPETITION EXPO'}</h1>
-          <p className="m-0 text-[clamp(25px,3vw,37px)] font-black uppercase leading-[1.12] tracking-[0.16em] max-[900px]:text-[27px] max-[720px]:text-[22px] max-[720px]:leading-[1.15] max-[420px]:text-lg" style={{ color: primaryTextColor }}>{banner.edition || 'SCE - 2026'}</p>
-          <p className="mt-[13px] text-[clamp(15px,1.7vw,21px)] font-black uppercase leading-tight tracking-[0.08em] max-[900px]:text-[17px] max-[720px]:mt-[9px] max-[720px]:text-[13px] max-[420px]:text-[11px]" style={{ color: primaryTextColor }}>{banner.region_heading || 'SE SUMATERA BAGIAN UTARA'}</p>
-          <p className="mt-1 text-[clamp(12px,1.25vw,15px)] font-bold leading-[1.35] max-[720px]:text-[11px] max-[420px]:text-[10px]" style={{ color: secondaryTextColor }}>{banner.region_detail || '(Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat)'}</p>
+          <SingleLineFitText as="h1" className="mb-1 text-[clamp(25px,3vw,37px)] font-black uppercase leading-[1.12] max-[900px]:text-[27px] max-[720px]:mt-[7px] max-[720px]:mb-[3px] max-[720px]:text-[22px] max-[720px]:leading-[1.15] max-[420px]:text-lg" style={{ color: primaryTextColor }}>
+            {banner.heading || 'SCIENCE COMPETITION EXPO'}
+          </SingleLineFitText>
+          <SingleLineFitText className="m-0 text-[clamp(25px,3vw,37px)] font-black uppercase leading-[1.12] tracking-[0.16em] max-[900px]:text-[27px] max-[720px]:text-[22px] max-[720px]:leading-[1.15] max-[420px]:text-lg" style={{ color: primaryTextColor }}>
+            {banner.edition || 'SCE - 2026'}
+          </SingleLineFitText>
+          <SingleLineFitText className="mt-[13px] text-[clamp(15px,1.7vw,21px)] font-black uppercase leading-tight tracking-[0.08em] max-[900px]:text-[17px] max-[720px]:mt-[9px] max-[720px]:text-[13px] max-[420px]:text-[11px]" style={{ color: primaryTextColor }}>
+            {banner.region_heading || 'SE SUMATERA BAGIAN UTARA'}
+          </SingleLineFitText>
+          <SingleLineFitText className="mt-1 text-[clamp(12px,1.25vw,15px)] font-bold leading-[1.35] max-[720px]:text-[11px] max-[420px]:text-[10px]" style={{ color: secondaryTextColor }}>
+            {banner.region_detail || '(Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat)'}
+          </SingleLineFitText>
         </div>
         <NavLink to="/" aria-label="Kembali ke beranda">
           <div className="flex flex-row flex-wrap items-center justify-end gap-3 max-[720px]:gap-[5px]">
