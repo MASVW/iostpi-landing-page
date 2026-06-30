@@ -35,6 +35,17 @@ class PublicSiteContentTest extends TestCase
         $this->assertArrayNotHasKey('hasil-lomba', $pages);
     }
 
+    public function test_seminar_guru_activity_uses_the_updated_description(): void
+    {
+        $activities = $this->getJson('/api/site-content/frontend')
+            ->assertOk()
+            ->json('home.activities.items');
+
+        $seminarGuru = collect($activities)->firstWhere('title', 'Seminar Guru');
+
+        $this->assertSame('Informasi seminar guru.', $seminarGuru['description'] ?? null);
+    }
+
     public function test_rich_text_color_markup_is_preserved_by_the_public_api(): void
     {
         $content = '<p><span class="color" data-color="#dc2626" style="--color: #dc2626; --dark-color: #dc2626">Teks merah</span></p>';

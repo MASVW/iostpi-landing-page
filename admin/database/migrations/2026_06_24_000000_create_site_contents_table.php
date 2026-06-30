@@ -73,7 +73,7 @@ HTML,
                 'content' => <<<'HTML'
 <h2>Kategori Kegiatan</h2>
 <ul>
-    <li>Seminar Guru - Informasi seminar guru PIOS.</li>
+    <li>Seminar Guru - Informasi seminar guru.</li>
     <li>Olimpiade Guru - Informasi olimpiade guru.</li>
     <li>LKTI Guru - Informasi lomba karya tulis ilmiah guru.</li>
     <li>Olimpiade Siswa SMA/MA/SMK - Informasi olimpiade siswa tingkat SMA/MA/SMK.</li>
