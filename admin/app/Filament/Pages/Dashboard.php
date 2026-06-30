@@ -57,7 +57,7 @@ class Dashboard extends BaseDashboard
             ->values()
             ->map(fn (array $note): array => [
                 'title' => $note['title'] ?? 'Partner Note',
-                'description' => strip_tags(SiteContent::rewriteAssetUrls($note['description'] ?? '')),
+                'description' => SiteContent::rewriteAssetUrls($note['description'] ?? ''),
                 'url' => $note['url'] ?? null,
             ])
             ->all();

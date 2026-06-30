@@ -26,6 +26,20 @@
   text-underline-offset: 3px;
 }
 
+.rich-content .color {
+  color: var(--color);
+}
+
+.rich-content-compact {
+  overflow: visible;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.rich-content-compact p {
+  margin-bottom: 0.75rem;
+}
+
 .rich-content h1,
 .rich-content h2,
 .rich-content h3,

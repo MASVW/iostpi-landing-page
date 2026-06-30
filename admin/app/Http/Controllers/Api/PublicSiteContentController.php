@@ -26,10 +26,14 @@ class PublicSiteContentController extends Controller
         $homeHero = $contents->firstWhere('key', 'home.hero');
         $homePartnerNotes = $contents->firstWhere('key', 'home.partner-notes');
         $homeActivities = $contents->firstWhere('key', 'home.activities');
+        $headerBanner = $contents->firstWhere('key', 'header.banner');
 
         return response()->json([
             'navigation' => $this->navigationPayload($contents),
             'pages' => $pages,
+            'header' => [
+                'banner' => optional($headerBanner, fn (SiteContent $content): array => $this->contentPayload($content)),
+            ],
             'home' => [
                 'hero' => $homeHero ? $this->contentPayload($homeHero) + [
                     'slides' => $this->heroSlides($homeHero),
@@ -195,7 +199,7 @@ class PublicSiteContentController extends Controller
             ->filter(fn (mixed $note): bool => is_array($note) && filled($note['title'] ?? null))
             ->map(fn (array $note): array => [
                 'title' => trim((string) ($note['title'] ?? '')),
-                'description' => trim(preg_replace('/\s+/', ' ', strip_tags((string) ($note['description'] ?? '')))),
+                'description' => SiteContent::rewriteAssetUrls((string) ($note['description'] ?? '')),
                 'url' => blank($note['url'] ?? null) ? null : trim((string) $note['url']),
             ])
             ->values()

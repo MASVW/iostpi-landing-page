@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\SiteContents;
 
+use App\Filament\RichContentPlugins\InlineTextColorPlugin;
 use App\Filament\RichContentPlugins\ResponsiveImageSizingPlugin;
 use App\Filament\Resources\SiteContents\Pages\ManageSiteContents;
 use App\Models\SiteContent;
@@ -97,7 +98,7 @@ class SiteContentResource extends Resource
                             ->required()
                             ->formatStateUsing(fn (?string $state): string => SiteContent::rewriteAssetUrls($state))
                             ->toolbarButtons([
-                                ['bold', 'italic', 'underline', 'strike', 'link'],
+                                ['bold', 'italic', 'underline', 'strike', 'link', 'inlineTextColor'],
                                 ['h1', 'h2', 'h3', 'h4', 'h5', 'paragraph'],
                                 ['alignStart', 'alignCenter', 'alignEnd'],
                                 ['blockquote', 'bulletList', 'orderedList'],
@@ -108,8 +109,10 @@ class SiteContentResource extends Resource
                             ->fileAttachmentsDisk('public')
                             ->fileAttachmentsDirectory('site-content/body')
                             ->fileAttachmentsVisibility('public')
+                            ->customTextColors()
                             ->resizableImages()
                             ->plugins([
+                                InlineTextColorPlugin::make(),
                                 ResponsiveImageSizingPlugin::make(),
                             ])
                             ->columnSpanFull(),

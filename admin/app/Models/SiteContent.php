@@ -68,12 +68,23 @@ class SiteContent extends Model
         }
 
         return match ($this->key) {
+            'header.banner' => static::headerBannerContentHtml($data),
             'home.hero' => static::heroContentHtml($data),
             'home.partner-notes' => static::partnerNotesContentHtml($data),
             'footer.contact' => static::footerContactContentHtml($data),
             'footer.partners' => static::footerPartnersContentHtml($data),
             default => '',
         };
+    }
+
+    public static function headerBannerContentHtml(array $data): string
+    {
+        $heading = e($data['heading'] ?? 'SCIENCE COMPETITION EXPO');
+        $edition = e($data['edition'] ?? 'SCE - 2026');
+        $regionHeading = e($data['region_heading'] ?? 'SE SUMATERA BAGIAN UTARA');
+        $regionDetail = e($data['region_detail'] ?? '(Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat)');
+
+        return "<h1>{$heading}</h1><h2>{$edition}</h2><h3>{$regionHeading}</h3><p>{$regionDetail}</p>";
     }
 
     public static function rewriteAssetUrls(?string $html): string

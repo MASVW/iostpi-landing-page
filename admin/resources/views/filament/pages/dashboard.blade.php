@@ -416,6 +416,10 @@
             line-height: 1.6;
         }
 
+        .sce-note-text p {
+            margin: 0;
+        }
+
         .sce-dashboard-empty {
             border: 1px dashed rgba(14, 165, 233, 0.35);
             border-radius: 1rem;
@@ -547,7 +551,9 @@
                         <article class="sce-note-card">
                             <h4 class="sce-note-title">{{ $note['title'] }}</h4>
                             @if (filled($note['description']))
-                                <p class="sce-note-text">{{ $note['description'] }}</p>
+                                <div class="sce-note-text fi-prose">
+                                    {!! $note['description'] !!}
+                                </div>
                             @else
                                 <p class="sce-note-text">Belum ada deskripsi.</p>
                             @endif

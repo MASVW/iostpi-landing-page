@@ -162,28 +162,61 @@ function Navigation() {
 }
 
 function Header() {
+  const { headerBanner } = useSiteContent()
+  const banner = headerBanner?.data || {}
+  const fallbackLeftLogos = [
+    { name: 'IOSTPI', image_url: `${ASSET_ROOT}/iostpi-logo.png` },
+    { name: 'Forum Komunikasi Antar Alumni USU', image_url: `${ASSET_ROOT}/logo-fokal-usu.avif` },
+  ]
+  const fallbackRightLogos = [
+    { name: 'Pemerintah Provinsi Sumatera Utara', image_url: `${ASSET_ROOT}/pemprovsu-logo.png` },
+    { name: 'Pemerintah Kota Medan', image_url: `${ASSET_ROOT}/pemko-medan-logo.png` },
+  ]
+  const leftLogos = headerBanner && Array.isArray(banner.left_logos)
+    ? banner.left_logos.filter((logo) => logo?.image_url)
+    : fallbackLeftLogos
+  const rightLogos = headerBanner && Array.isArray(banner.right_logos)
+    ? banner.right_logos.filter((logo) => logo?.image_url)
+    : fallbackRightLogos
+  const primaryTextColor = banner.primary_text_color || '#2b638f'
+  const secondaryTextColor = banner.secondary_text_color || '#31536b'
+
   return (
     <header>
       <TopBar />
-      <div className={`${containerClass} grid min-h-[170px] grid-cols-[190px_1fr_170px] items-center gap-6 max-[900px]:min-h-[175px] max-[900px]:grid-cols-[155px_1fr_150px] max-[900px]:gap-3.5 max-[720px]:min-h-[185px] max-[720px]:grid-cols-[112px_1fr_90px] max-[720px]:gap-2 max-[420px]:min-h-[170px] max-[420px]:grid-cols-[86px_1fr_74px]`}>
+      <div style={{ backgroundColor: banner.background_color || '#f5fbff' }}>
+        <div className={`${containerClass} grid min-h-[170px] grid-cols-[190px_1fr_170px] items-center gap-6 max-[900px]:min-h-[175px] max-[900px]:grid-cols-[155px_1fr_150px] max-[900px]:gap-3.5 max-[720px]:min-h-[185px] max-[720px]:grid-cols-[112px_1fr_90px] max-[720px]:gap-2 max-[420px]:min-h-[170px] max-[420px]:grid-cols-[86px_1fr_74px]`}>
         <NavLink to="/" aria-label="Kembali ke beranda">
-          <div className="flex flex-row items-center justify-center gap-3 max-[720px]:gap-[5px]">
-            <img className="h-[82px] w-[82px] object-contain max-[900px]:h-[68px] max-[900px]:w-[68px] max-[720px]:h-[52px] max-[720px]:w-[52px] max-[420px]:h-[39px] max-[420px]:w-[39px]" src={`${ASSET_ROOT}/iostpi-logo.png`} alt="Logo PIOS" />
-            <img className="h-[88px] w-[88px] object-contain max-[900px]:h-[72px] max-[900px]:w-[72px] max-[720px]:h-14 max-[720px]:w-14 max-[420px]:h-[42px] max-[420px]:w-[42px]" src={`${ASSET_ROOT}/logo-fokal-usu.avif`} alt="Logo FOKAL USU" />
+          <div className="flex flex-row flex-wrap items-center justify-center gap-3 max-[720px]:gap-[5px]">
+            {leftLogos.map((logo) => (
+              <img
+                className="h-[84px] w-[84px] object-contain max-[900px]:h-[70px] max-[900px]:w-[70px] max-[720px]:h-[54px] max-[720px]:w-[54px] max-[420px]:h-10 max-[420px]:w-10"
+                src={logo.image_url}
+                alt={logo.name || 'Logo banner kiri'}
+                key={`${logo.name}-${logo.image_url}`}
+              />
+            ))}
           </div>
         </NavLink>
         <div className="text-center">
-          <h1 className="mb-1 text-[clamp(25px,3vw,37px)] font-black uppercase leading-[1.12] text-[#2b638f] max-[900px]:text-[27px] max-[720px]:mt-[7px] max-[720px]:mb-[3px] max-[720px]:text-[22px] max-[720px]:leading-[1.15] max-[420px]:text-lg">SCIENCE COMPETITION EXPO</h1>
-          <p className="m-0 text-[clamp(25px,3vw,37px)] font-black uppercase leading-[1.12] tracking-[0.16em] text-[#2b638f] max-[900px]:text-[27px] max-[720px]:text-[22px] max-[720px]:leading-[1.15] max-[420px]:text-lg">SCE - 2026</p>
-          <p className="mt-[13px] text-[clamp(15px,1.7vw,21px)] font-black uppercase leading-tight tracking-[0.08em] text-[#2b638f] max-[900px]:text-[17px] max-[720px]:mt-[9px] max-[720px]:text-[13px] max-[420px]:text-[11px]">SE SUMATERA BAGIAN UTARA</p>
-          <p className="mt-1 text-[clamp(12px,1.25vw,15px)] font-bold leading-[1.35] text-[#31536b] max-[720px]:text-[11px] max-[420px]:text-[10px]">(Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat)</p>
+          <h1 className="mb-1 text-[clamp(25px,3vw,37px)] font-black uppercase leading-[1.12] max-[900px]:text-[27px] max-[720px]:mt-[7px] max-[720px]:mb-[3px] max-[720px]:text-[22px] max-[720px]:leading-[1.15] max-[420px]:text-lg" style={{ color: primaryTextColor }}>{banner.heading || 'SCIENCE COMPETITION EXPO'}</h1>
+          <p className="m-0 text-[clamp(25px,3vw,37px)] font-black uppercase leading-[1.12] tracking-[0.16em] max-[900px]:text-[27px] max-[720px]:text-[22px] max-[720px]:leading-[1.15] max-[420px]:text-lg" style={{ color: primaryTextColor }}>{banner.edition || 'SCE - 2026'}</p>
+          <p className="mt-[13px] text-[clamp(15px,1.7vw,21px)] font-black uppercase leading-tight tracking-[0.08em] max-[900px]:text-[17px] max-[720px]:mt-[9px] max-[720px]:text-[13px] max-[420px]:text-[11px]" style={{ color: primaryTextColor }}>{banner.region_heading || 'SE SUMATERA BAGIAN UTARA'}</p>
+          <p className="mt-1 text-[clamp(12px,1.25vw,15px)] font-bold leading-[1.35] max-[720px]:text-[11px] max-[420px]:text-[10px]" style={{ color: secondaryTextColor }}>{banner.region_detail || '(Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat)'}</p>
         </div>
         <NavLink to="/" aria-label="Kembali ke beranda">
-          <div className="flex flex-row items-center justify-end gap-3 max-[720px]:gap-[5px]">
-            <img className="h-[76px] w-[76px] object-contain max-[900px]:h-[66px] max-[900px]:w-[66px] max-[720px]:h-[42px] max-[720px]:w-[42px] max-[420px]:h-[35px] max-[420px]:w-[35px]" src={`${ASSET_ROOT}/pemprovsu-logo.png`} alt="Logo Pemerintah Provinsi Sumatera Utara" />
-            <img className="h-[76px] w-[76px] object-contain max-[900px]:h-[66px] max-[900px]:w-[66px] max-[720px]:h-[42px] max-[720px]:w-[42px] max-[420px]:h-[35px] max-[420px]:w-[35px]" src={`${ASSET_ROOT}/pemko-medan-logo.png`} alt="Logo Pemerintah Kota Medan" />
+          <div className="flex flex-row flex-wrap items-center justify-end gap-3 max-[720px]:gap-[5px]">
+            {rightLogos.map((logo) => (
+              <img
+                className="h-[76px] w-[76px] object-contain max-[900px]:h-[66px] max-[900px]:w-[66px] max-[720px]:h-[42px] max-[720px]:w-[42px] max-[420px]:h-[35px] max-[420px]:w-[35px]"
+                src={logo.image_url}
+                alt={logo.name || 'Logo banner kanan'}
+                key={`${logo.name}-${logo.image_url}`}
+              />
+            ))}
           </div>
         </NavLink>
+        </div>
       </div>
       <Navigation />
     </header>

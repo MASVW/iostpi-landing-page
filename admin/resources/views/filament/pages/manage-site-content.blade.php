@@ -7,7 +7,14 @@
             ->filter(fn (mixed $logo): bool => is_array($logo) && filled($logo['image_url'] ?? null))
             ->values();
         $footerContacts = $structuredData['contacts'] ?? [];
+        $headerLeftLogos = collect($structuredData['left_logos'] ?? [])
+            ->filter(fn (mixed $logo): bool => is_array($logo) && filled($logo['image_url'] ?? null))
+            ->values();
+        $headerRightLogos = collect($structuredData['right_logos'] ?? [])
+            ->filter(fn (mixed $logo): bool => is_array($logo) && filled($logo['image_url'] ?? null))
+            ->values();
         $contentTypeLabels = [
+            'header' => 'Header',
             'home' => 'Beranda',
             'page' => 'Halaman',
             'footer' => 'Footer',
@@ -282,6 +289,79 @@
             width: 100%;
         }
 
+        .header-banner-preview {
+            display: grid;
+            min-height: 10.5rem;
+            grid-template-columns: minmax(8rem, 1fr) minmax(18rem, 2.5fr) minmax(8rem, 1fr);
+            align-items: center;
+            gap: 1.25rem;
+            border-radius: 0.9rem;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .header-banner-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .header-banner-logos.is-right {
+            justify-content: flex-end;
+        }
+
+        .header-banner-logo {
+            width: 4.8rem;
+            height: 4.8rem;
+            object-fit: contain;
+        }
+
+        .header-banner-copy {
+            text-align: center;
+        }
+
+        .header-banner-copy h4,
+        .header-banner-copy p {
+            margin: 0;
+        }
+
+        .header-banner-heading,
+        .header-banner-edition {
+            font-size: clamp(1.35rem, 2.5vw, 2rem);
+            font-weight: 900;
+            line-height: 1.12;
+            text-transform: uppercase;
+        }
+
+        .header-banner-edition {
+            letter-spacing: 0.16em;
+        }
+
+        .header-banner-region {
+            margin-top: 0.65rem !important;
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .header-banner-detail {
+            margin-top: 0.25rem !important;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .header-banner-preview {
+                grid-template-columns: 1fr;
+            }
+
+            .header-banner-logos,
+            .header-banner-logos.is-right {
+                justify-content: center;
+            }
+        }
+
         .site-content-preview-body {
             padding: 1.5rem;
         }
@@ -525,7 +605,7 @@
                 </span>
             </div>
 
-            @if ($record->image_url && $record->key !== 'footer.contact')
+            @if ($record->image_url && ! in_array($record->key, ['footer.contact', 'header.banner'], true))
                 <div class="site-content-preview-image">
                     <img src="{{ $record->image_url }}" alt="{{ $record->title }}">
                 </div>
@@ -533,12 +613,48 @@
 
             <div class="site-content-preview-body">
                 <div class="site-content-preview-surface">
-                    @if ($record->key === 'home.partner-notes')
+                    @if ($record->key === 'header.banner')
+                        <div
+                            class="header-banner-preview"
+                            style="background-color: {{ $structuredData['background_color'] ?? '#f5fbff' }}"
+                        >
+                            <div class="header-banner-logos">
+                                @forelse ($headerLeftLogos as $logo)
+                                    <img class="header-banner-logo" src="{{ $logo['image_url'] }}" alt="{{ $logo['name'] ?? 'Logo kiri' }}">
+                                @empty
+                                    <span class="text-sm text-gray-500">Belum ada logo kiri.</span>
+                                @endforelse
+                            </div>
+
+                            <div class="header-banner-copy">
+                                <h4 class="header-banner-heading" style="color: {{ $structuredData['primary_text_color'] ?? '#2b638f' }}">
+                                    {{ $structuredData['heading'] ?? 'SCIENCE COMPETITION EXPO' }}
+                                </h4>
+                                <p class="header-banner-edition" style="color: {{ $structuredData['primary_text_color'] ?? '#2b638f' }}">
+                                    {{ $structuredData['edition'] ?? 'SCE - 2026' }}
+                                </p>
+                                <p class="header-banner-region" style="color: {{ $structuredData['primary_text_color'] ?? '#2b638f' }}">
+                                    {{ $structuredData['region_heading'] ?? 'SE SUMATERA BAGIAN UTARA' }}
+                                </p>
+                                <p class="header-banner-detail" style="color: {{ $structuredData['secondary_text_color'] ?? '#31536b' }}">
+                                    {{ $structuredData['region_detail'] ?? '(Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat)' }}
+                                </p>
+                            </div>
+
+                            <div class="header-banner-logos is-right">
+                                @forelse ($headerRightLogos as $logo)
+                                    <img class="header-banner-logo" src="{{ $logo['image_url'] }}" alt="{{ $logo['name'] ?? 'Logo kanan' }}">
+                                @empty
+                                    <span class="text-sm text-gray-500">Belum ada logo kanan.</span>
+                                @endforelse
+                            </div>
+                        </div>
+                    @elseif ($record->key === 'home.partner-notes')
                         <div class="partner-notes-preview">
                             @forelse ($partnerNotes as $note)
                                 <article class="partner-note-card">
                                     <h4 class="partner-note-title">{{ $note['title'] ?? 'Partner Note' }}</h4>
-                                    <div class="partner-note-description">
+                                    <div class="partner-note-description fi-prose">
                                         {!! \App\Models\SiteContent::rewriteAssetUrls($note['description'] ?? '') !!}
                                     </div>
                                     @if (filled($note['url'] ?? null))

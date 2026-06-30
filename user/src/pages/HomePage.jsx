@@ -102,7 +102,10 @@ function PartnerNotes({ items }) {
         {items.map((item) => (
           <article className={articleClass} key={item.title}>
             <h3 className="mb-[9px] mt-0 text-[19px] font-bold">{item.title}</h3>
-            <p className="mb-[15px] mt-0 leading-[1.55]">{item.description}</p>
+            <div
+              className="rich-content rich-content-compact mb-[15px]"
+              dangerouslySetInnerHTML={{ __html: item.description || '' }}
+            />
             {item.url && <a className={linkClass} href={item.url} target="_blank" rel="noreferrer">View More</a>}
           </article>
         ))}

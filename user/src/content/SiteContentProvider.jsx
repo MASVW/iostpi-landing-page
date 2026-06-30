@@ -9,6 +9,7 @@ const emptyContent = {
   partnerNotes: [],
   activities: [],
   announcements: [],
+  headerBanner: null,
   footer: {},
 }
 
@@ -24,6 +25,7 @@ function normalizePayload(payload) {
     partnerNotes: Array.isArray(payload.home?.partner_notes?.items) ? payload.home.partner_notes.items : [],
     activities: Array.isArray(payload.home?.activities?.items) ? payload.home.activities.items : [],
     announcements: Array.isArray(payload.home?.announcements?.items) ? payload.home.announcements.items : [],
+    headerBanner: hasObjectPayload(payload.header?.banner) ? payload.header.banner : null,
     footer: hasObjectPayload(payload.footer) ? payload.footer : {},
   }
 }

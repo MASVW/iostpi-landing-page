@@ -2,16 +2,17 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\RichContentPlugins\InlineTextColorPlugin;
 use App\Filament\RichContentPlugins\ResponsiveImageSizingPlugin;
 use App\Models\SiteContent;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
@@ -62,6 +63,7 @@ abstract class ManageSiteContentPage extends Page
     public static function getNavigationIcon(): string|BackedEnum|Htmlable|null
     {
         return static::$navigationIcon ?? match (static::getContentKey()) {
+            'header.banner' => Heroicon::OutlinedPhoto,
             'home.hero' => Heroicon::OutlinedPhoto,
             'home.partner-notes' => Heroicon::OutlinedChatBubbleLeftRight,
             'home.activities' => Heroicon::OutlinedSquares2x2,
@@ -79,7 +81,6 @@ abstract class ManageSiteContentPage extends Page
             'page.kumpulan-soal' => Heroicon::OutlinedBookOpen,
             'page.lokasi-ujian' => Heroicon::OutlinedMapPin,
             'page.pengumuman' => Heroicon::OutlinedMegaphone,
-            'page.hasil-lomba' => Heroicon::OutlinedFlag,
             'footer.contact' => Heroicon::OutlinedEnvelope,
             'footer.partners' => Heroicon::OutlinedGlobeAlt,
             default => Heroicon::OutlinedDocumentText,
@@ -97,12 +98,9 @@ abstract class ManageSiteContentPage extends Page
                 ->modalWidth('7xl')
                 ->schema($this->getContentFormSchema())
                 ->fillForm(fn (): array => [
-                    'navigation_label' => $this->getRecord()->navigation_label,
-                    'title' => $this->getRecord()->title,
                     'image_path' => $this->getRecord()->image_path,
                     'content' => $this->getRecord()->rendered_content,
                     'data' => $this->getStructuredDataForForm(),
-                    'is_active' => $this->getRecord()->is_active,
                 ])
                 ->action(function (array $data): void {
                     $this->getRecord()->update($this->normalizeFormDataForSave($data));
@@ -118,29 +116,90 @@ abstract class ManageSiteContentPage extends Page
 
     protected function getContentFormSchema(): array
     {
-        return [
-            Section::make('Metadata')
-                ->columns(2)
-                ->schema([
-                    TextInput::make('navigation_label')
-                        ->label('Label Navigasi')
-                        ->required()
-                        ->maxLength(255),
-                    TextInput::make('title')
-                        ->label('Judul Halaman')
-                        ->required()
-                        ->maxLength(255),
-                    Toggle::make('is_active')
-                        ->label('Aktif')
-                        ->default(true),
-                ]),
-            ...$this->getContentSpecificFormSchema(),
-        ];
+        return $this->getContentSpecificFormSchema();
     }
 
     protected function getContentSpecificFormSchema(): array
     {
         return match (static::getContentKey()) {
+            'header.banner' => [
+                Section::make('Teks Banner')
+                    ->description('Seluruh teks header frontend dikelola dari field terpisah agar mudah diperbarui.')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('data.heading')
+                            ->label('Judul Utama')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('data.edition')
+                            ->label('Edisi')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('data.region_heading')
+                            ->label('Judul Wilayah')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('data.region_detail')
+                            ->label('Detail Wilayah')
+                            ->required()
+                            ->maxLength(500),
+                    ]),
+                Section::make('Warna Banner')
+                    ->columns(3)
+                    ->schema([
+                        ColorPicker::make('data.background_color')
+                            ->label('Warna Latar')
+                            ->required(),
+                        ColorPicker::make('data.primary_text_color')
+                            ->label('Warna Teks Utama')
+                            ->required(),
+                        ColorPicker::make('data.secondary_text_color')
+                            ->label('Warna Teks Detail')
+                            ->required(),
+                    ]),
+                Section::make('Logo Sebelah Kiri')
+                    ->schema([
+                        Repeater::make('data.left_logos')
+                            ->label('Logo')
+                            ->addActionLabel('Tambah Logo Kiri')
+                            ->itemLabel(fn (array $state): ?string => filled($state['name'] ?? null) ? $state['name'] : null)
+                            ->reorderable()
+                            ->cloneable()
+                            ->collapsible()
+                            ->defaultItems(2)
+                            ->schema([
+                                TextInput::make('name')
+                                    ->label('Nama Logo')
+                                    ->required()
+                                    ->maxLength(255),
+                                $this->imageUpload('image_path', 'File Logo', 'site-content/header')
+                                    ->required(),
+                            ])
+                            ->columns(2)
+                            ->columnSpanFull(),
+                    ]),
+                Section::make('Logo Sebelah Kanan')
+                    ->schema([
+                        Repeater::make('data.right_logos')
+                            ->label('Logo')
+                            ->addActionLabel('Tambah Logo Kanan')
+                            ->itemLabel(fn (array $state): ?string => filled($state['name'] ?? null) ? $state['name'] : null)
+                            ->reorderable()
+                            ->cloneable()
+                            ->collapsible()
+                            ->defaultItems(2)
+                            ->schema([
+                                TextInput::make('name')
+                                    ->label('Nama Logo')
+                                    ->required()
+                                    ->maxLength(255),
+                                $this->imageUpload('image_path', 'File Logo', 'site-content/header')
+                                    ->required(),
+                            ])
+                            ->columns(2)
+                            ->columnSpanFull(),
+                    ]),
+            ],
             'home.hero' => [
                 Section::make('Hero Carousel')
                     ->description('Setiap slide memiliki foto dan keterangan sendiri. Foto pertama otomatis dipakai sebagai thumbnail modul.')
@@ -341,7 +400,7 @@ abstract class ManageSiteContentPage extends Page
             ->label($label)
             ->formatStateUsing(fn (?string $state): string => SiteContent::rewriteAssetUrls($state))
             ->toolbarButtons([
-                ['bold', 'italic', 'underline', 'strike', 'link'],
+                ['bold', 'italic', 'underline', 'strike', 'link', 'inlineTextColor'],
                 ['h1', 'h2', 'h3', 'h4', 'h5', 'paragraph'],
                 ['alignStart', 'alignCenter', 'alignEnd'],
                 ['blockquote', 'bulletList', 'orderedList'],
@@ -352,8 +411,10 @@ abstract class ManageSiteContentPage extends Page
             ->fileAttachmentsDisk('public')
             ->fileAttachmentsDirectory('site-content/body')
             ->fileAttachmentsVisibility('public')
+            ->customTextColors()
             ->resizableImages()
             ->plugins([
+                InlineTextColorPlugin::make(),
                 ResponsiveImageSizingPlugin::make(),
             ])
             ->columnSpanFull();
@@ -370,6 +431,17 @@ abstract class ManageSiteContentPage extends Page
     protected function getDefaultStructuredData(): array
     {
         return match (static::getContentKey()) {
+            'header.banner' => [
+                'heading' => 'SCIENCE COMPETITION EXPO',
+                'edition' => 'SCE - 2026',
+                'region_heading' => 'SE SUMATERA BAGIAN UTARA',
+                'region_detail' => '(Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat)',
+                'background_color' => '#f5fbff',
+                'primary_text_color' => '#2b638f',
+                'secondary_text_color' => '#31536b',
+                'left_logos' => [],
+                'right_logos' => [],
+            ],
             'home.hero' => ['slides' => []],
             'home.partner-notes' => ['notes' => []],
             'footer.contact' => [
@@ -405,6 +477,7 @@ abstract class ManageSiteContentPage extends Page
 
         $data['data'] = $structuredData;
         $data['content'] = match (static::getContentKey()) {
+            'header.banner' => SiteContent::headerBannerContentHtml($structuredData),
             'home.hero' => SiteContent::heroContentHtml($structuredData),
             'home.partner-notes' => SiteContent::partnerNotesContentHtml($structuredData),
             'footer.contact' => SiteContent::footerContactContentHtml($structuredData),
@@ -426,6 +499,7 @@ abstract class ManageSiteContentPage extends Page
     protected function usesStructuredData(): bool
     {
         return in_array(static::getContentKey(), [
+            'header.banner',
             'home.hero',
             'home.partner-notes',
             'footer.contact',
@@ -438,6 +512,23 @@ abstract class ManageSiteContentPage extends Page
         $data = is_array($data) ? $data : [];
 
         return match ($key) {
+            'header.banner' => [
+                'heading' => $this->cleanString($data['heading'] ?? 'SCIENCE COMPETITION EXPO'),
+                'edition' => $this->cleanString($data['edition'] ?? 'SCE - 2026'),
+                'region_heading' => $this->cleanString($data['region_heading'] ?? 'SE SUMATERA BAGIAN UTARA'),
+                'region_detail' => $this->cleanString($data['region_detail'] ?? '(Aceh, Sumatera Utara, Riau, Kepulauan Riau, dan Sumatera Barat)'),
+                'background_color' => $this->cleanColor($data['background_color'] ?? null, '#f5fbff'),
+                'primary_text_color' => $this->cleanColor($data['primary_text_color'] ?? null, '#2b638f'),
+                'secondary_text_color' => $this->cleanColor($data['secondary_text_color'] ?? null, '#31536b'),
+                'left_logos' => $this->cleanRows($data['left_logos'] ?? [], fn (array $logo): array => [
+                    'name' => $this->cleanString($logo['name'] ?? ''),
+                    'image_path' => $this->cleanImagePath($logo['image_path'] ?? null),
+                ]),
+                'right_logos' => $this->cleanRows($data['right_logos'] ?? [], fn (array $logo): array => [
+                    'name' => $this->cleanString($logo['name'] ?? ''),
+                    'image_path' => $this->cleanImagePath($logo['image_path'] ?? null),
+                ]),
+            ],
             'home.hero' => [
                 'slides' => $this->cleanRows($data['slides'] ?? [], fn (array $slide): array => [
                     'caption' => $this->cleanString($slide['caption'] ?? ''),
@@ -509,6 +600,17 @@ abstract class ManageSiteContentPage extends Page
         return is_string($value) ? trim(SiteContent::rewriteAssetUrls($value)) : '';
     }
 
+    protected function cleanColor(mixed $value, string $fallback): string
+    {
+        if (! is_string($value)) {
+            return $fallback;
+        }
+
+        $value = trim($value);
+
+        return preg_match('/^#[0-9a-f]{6}$/i', $value) ? $value : $fallback;
+    }
+
     protected function cleanImagePath(mixed $value): ?string
     {
         if (is_array($value)) {
@@ -538,6 +640,7 @@ abstract class ManageSiteContentPage extends Page
     protected function primaryImagePath(string $key, array $data): ?string
     {
         return match ($key) {
+            'header.banner' => $data['left_logos'][0]['image_path'] ?? $data['right_logos'][0]['image_path'] ?? null,
             'home.hero' => $data['slides'][0]['image_path'] ?? null,
             'footer.contact' => $data['logos'][0]['image_path'] ?? null,
             'footer.partners' => $data['logos'][0]['image_path'] ?? null,

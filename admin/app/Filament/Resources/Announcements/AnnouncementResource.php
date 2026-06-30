@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Announcements;
 
+use App\Filament\RichContentPlugins\InlineTextColorPlugin;
 use App\Filament\RichContentPlugins\ResponsiveImageSizingPlugin;
 use App\Filament\Resources\Announcements\Pages\ManageAnnouncements;
 use App\Models\Announcement;
@@ -95,7 +96,7 @@ class AnnouncementResource extends Resource
                             ->required()
                             ->formatStateUsing(fn (?string $state): string => SiteContent::rewriteAssetUrls($state))
                             ->toolbarButtons([
-                                ['bold', 'italic', 'underline', 'strike', 'link'],
+                                ['bold', 'italic', 'underline', 'strike', 'link', 'inlineTextColor'],
                                 ['h1', 'h2', 'h3', 'h4', 'h5', 'paragraph'],
                                 ['alignStart', 'alignCenter', 'alignEnd'],
                                 ['blockquote', 'bulletList', 'orderedList'],
@@ -103,8 +104,10 @@ class AnnouncementResource extends Resource
                                 ['undo', 'redo'],
                             ])
                             ->extraFieldWrapperAttributes(['class' => 'announcement-content-editor'])
+                            ->customTextColors()
                             ->resizableImages()
                             ->plugins([
+                                InlineTextColorPlugin::make(),
                                 ResponsiveImageSizingPlugin::make(),
                             ])
                             ->columnSpanFull(),
