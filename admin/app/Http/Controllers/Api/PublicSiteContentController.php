@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\SiteContent;
+use App\Support\ApiCache;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -12,6 +13,14 @@ use Illuminate\Support\Str;
 class PublicSiteContentController extends Controller
 {
     public function frontend(): JsonResponse
+    {
+        // Hasil disimpan 5 menit; otomatis di-refresh saat admin mengubah konten/pengumuman.
+        return response()->json(
+            ApiCache::remember('site-content:frontend', 300, fn (): array => $this->frontendPayload())
+        );
+    }
+
+    protected function frontendPayload(): array
     {
         $contents = SiteContent::query()
             ->where('is_active', true)
@@ -28,7 +37,7 @@ class PublicSiteContentController extends Controller
         $homeActivities = $contents->firstWhere('key', 'home.activities');
         $headerBanner = $contents->firstWhere('key', 'header.banner');
 
-        return response()->json([
+        return [
             'navigation' => $this->navigationPayload($contents),
             'pages' => $pages,
             'header' => [
@@ -52,7 +61,7 @@ class PublicSiteContentController extends Controller
                 'contact' => optional($contents->firstWhere('key', 'footer.contact'), fn (SiteContent $content): array => $this->contentPayload($content)),
                 'partners' => optional($contents->firstWhere('key', 'footer.partners'), fn (SiteContent $content): array => $this->contentPayload($content)),
             ],
-        ]);
+        ];
     }
 
     public function page(string $slug): JsonResponse
@@ -170,7 +179,7 @@ class PublicSiteContentController extends Controller
             'label' => $content->navigation_label,
             'path' => $content->key === 'page.pengumuman'
                 ? '/pengumuman'
-                : '/page/' . $this->pageSlug($content),
+                : '/page/'.$this->pageSlug($content),
         ];
     }
 
@@ -184,7 +193,7 @@ class PublicSiteContentController extends Controller
         $slides = collect($content->structured_data['slides'] ?? [])
             ->filter(fn (mixed $slide): bool => is_array($slide) && filled($slide['image_url'] ?? null))
             ->map(fn (array $slide, int $index): array => [
-                'judul' => trim((string) ($slide['caption'] ?? '')) ?: 'Slide ' . ($index + 1),
+                'judul' => trim((string) ($slide['caption'] ?? '')) ?: 'Slide '.($index + 1),
                 'filename' => $slide['image_url'],
             ])
             ->values()
@@ -222,7 +231,7 @@ class PublicSiteContentController extends Controller
                 'id' => $announcement->id,
                 'title' => $announcement->title,
                 'slug' => $announcement->slug,
-                'path' => '/pengumuman/' . $announcement->slug,
+                'path' => '/pengumuman/'.$announcement->slug,
                 'excerpt' => $announcement->excerpt,
                 'image_url' => $announcement->image_url,
                 'published_at' => $announcement->published_at?->toIso8601String(),
@@ -245,7 +254,7 @@ class PublicSiteContentController extends Controller
 
                 if ($imageUrl) {
                     $slides[] = [
-                        'judul' => $title ?: ($image?->getAttribute('alt') ?: 'Slide ' . (count($slides) + 1)),
+                        'judul' => $title ?: ($image?->getAttribute('alt') ?: 'Slide '.(count($slides) + 1)),
                         'filename' => $imageUrl,
                     ];
                 }
@@ -331,9 +340,9 @@ class PublicSiteContentController extends Controller
             return [];
         }
 
-        $document = new \DOMDocument();
+        $document = new \DOMDocument;
         $previous = libxml_use_internal_errors(true);
-        $document->loadHTML('<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $document->loadHTML('<?xml encoding="utf-8" ?>'.$html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         libxml_clear_errors();
         libxml_use_internal_errors($previous);
 

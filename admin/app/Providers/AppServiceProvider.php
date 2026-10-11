@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Announcement;
+use App\Models\SiteContent;
+use App\Support\ApiCache;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        SiteContent::saved(fn () => ApiCache::flush());
+        SiteContent::deleted(fn () => ApiCache::flush());
+        Announcement::saved(fn () => ApiCache::flush());
+        Announcement::deleted(fn () => ApiCache::flush());
     }
 }

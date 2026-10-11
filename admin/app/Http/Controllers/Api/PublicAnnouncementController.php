@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
+use App\Support\ApiCache;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -13,44 +14,54 @@ class PublicAnnouncementController extends Controller
     {
         $limit = min(max((int) $request->integer('limit', 0), 0), 12);
 
-        $query = Announcement::query()
-            ->with('user')
-            ->published()
-            ->orderByDesc('published_at')
-            ->orderByDesc('sort_order')
-            ->orderByDesc('id');
+        // Hasil disimpan 60 detik per nilai limit (0-12).
+        return response()->json(
+            ApiCache::remember("announcements:index:{$limit}", 60, function () use ($limit): array {
+                $query = Announcement::query()
+                    ->with('user')
+                    ->published()
+                    ->orderByDesc('published_at')
+                    ->orderByDesc('sort_order')
+                    ->orderByDesc('id');
 
-        if ($limit > 0) {
-            $query->limit($limit);
-        }
+                if ($limit > 0) {
+                    $query->limit($limit);
+                }
 
-        return response()->json([
-            'items' => $query
-                ->get()
-                ->map(fn (Announcement $announcement): array => $this->payload($announcement, includeContent: false))
-                ->all(),
-        ]);
+                return [
+                    'items' => $query
+                        ->get()
+                        ->map(fn (Announcement $announcement): array => $this->payload($announcement, includeContent: false))
+                        ->all(),
+                ];
+            })
+        );
     }
 
     public function show(Announcement $announcement): JsonResponse
     {
         abort_unless($this->isPubliclyVisible($announcement), 404);
 
-        $announcement->load('user');
+        // Hasil disimpan 60 detik per pengumuman.
+        return response()->json(
+            ApiCache::remember("announcements:show:{$announcement->getKey()}", 60, function () use ($announcement): array {
+                $announcement->load('user');
 
-        return response()->json($this->payload($announcement) + [
-            'related' => Announcement::query()
-                ->with('user')
-                ->published()
-                ->whereKeyNot($announcement->getKey())
-                ->orderByDesc('published_at')
-                ->orderByDesc('sort_order')
-                ->orderByDesc('id')
-                ->limit(2)
-                ->get()
-                ->map(fn (Announcement $related): array => $this->payload($related, includeContent: false))
-                ->all(),
-        ]);
+                return $this->payload($announcement) + [
+                    'related' => Announcement::query()
+                        ->with('user')
+                        ->published()
+                        ->whereKeyNot($announcement->getKey())
+                        ->orderByDesc('published_at')
+                        ->orderByDesc('sort_order')
+                        ->orderByDesc('id')
+                        ->limit(2)
+                        ->get()
+                        ->map(fn (Announcement $related): array => $this->payload($related, includeContent: false))
+                        ->all(),
+                ];
+            })
+        );
     }
 
     public function trackView(Announcement $announcement): JsonResponse
@@ -70,7 +81,7 @@ class PublicAnnouncementController extends Controller
             'id' => $announcement->id,
             'title' => $announcement->title,
             'slug' => $announcement->slug,
-            'path' => '/pengumuman/' . $announcement->slug,
+            'path' => '/pengumuman/'.$announcement->slug,
             'excerpt' => $announcement->excerpt,
             'image_url' => $announcement->image_url,
             'content' => $includeContent ? $announcement->rendered_content : null,
